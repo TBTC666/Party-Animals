@@ -4,19 +4,42 @@ document.addEventListener('contextmenu', function (e) {
 })
 
 //传入一个动物对象，返回这个动物的描述
-function getAnimalDescHtml(animal) {
-    var html = '';
-    animal = animalsObj[animal];
-    if (animal) {
-        html = `<p class="animal-name">${animal.name}</p>\n`;
-        for (var key in animals) {
-            if (animals[key].animalsList.indexOf(animal) >= 0) {
-                html += `<p class="animal-type">${animals[key].typeName}</p>\n`;
+function getAnimalDescHtml(animalObj, selectedTypes) {
+    if (!selectedTypes) {
+        let type = animalObj.type;
+        let name = animalObj.name;
+        var html = `<p class="animal-name">${name}</p>\n`;
+        for (var i = 0; i < type.length; i++) {
+            for (var key in animalsTypeObj) {
+                if (animalsTypeObj[key].value === type[i]) {
+                    html += `<p class="animal-type">${animalsTypeObj[key].typeName}</p>\n`;
+                }
             }
         }
-    }
-    return html;
+        return html;
+    } else {
+        let type = animalObj.type;
+        let name = animalObj.name;
+        var html = `<p class="animal-name">${name}</p>\n`;
+        for (var i = 0; i < type.length; i++) {
+            for (var key in animalsTypeObj) {
+                if (animalsTypeObj[key].value === type[i]) {
+                    if (selectedTypes.map((item) => { return item.value }).includes(type[i])) {
+                        html += `<p class="animal-type selected">${animalsTypeObj[key].typeName}</p>\n`;
+                    } else {
+                        html += `<p class="animal-type">${animalsTypeObj[key].typeName}</p>\n`;
+                    }
+                }
+            }
+        }
+        return html;
+        
+     }
+    
+    
 }
+
+
 
 var dom = {
     resultText: document.querySelector('.result-area .text'),
@@ -29,11 +52,11 @@ var dom = {
 
 function upDateChooseArea() {
     dom.chooseContainer.innerHTML = ''
-    for (let arr in animals) {
+    for (let arr in animalsTypeObj) {
         let html = `<div class="choose-item">
                 <label>
-                    <input type="checkbox" name="animals" value="${animals[arr].value}">
-                    <span class="desc">${animals[arr].typeName}</span>
+                    <input type="checkbox" name="animals" value="${animalsTypeObj[arr].value}">
+                    <span class="desc">${animalsTypeObj[arr].typeName}</span>
                 </label>
             </div>`;
         dom.chooseContainer.insertAdjacentHTML('beforeend', html);
@@ -45,8 +68,8 @@ upDateChooseArea();
 
 function showAllAnimals() {
     let temp = [];
-    for (let arr in animals) {
-        temp.push(animals[arr].animalsList);
+    for (let arr in animalsTypeObj) {
+        temp.push(animalsTypeObj[arr].animalsList);
     }
     let allAnimalsObj = temp.reduce((acc, cur) => {
         cur.forEach((item) => {
@@ -66,7 +89,7 @@ function showAllAnimals() {
         dom.resultContainer.appendChild(div);
         let div2 = document.createElement('div');
         div2.classList.add('animal-desc');
-        div2.innerHTML = getAnimalDescHtml(allAnimalsObj[i].value);
+        div2.innerHTML = getAnimalDescHtml(allAnimalsObj[i]);
         div.appendChild(div2);
     }
 }
@@ -74,12 +97,15 @@ function showAllAnimals() {
 showAllAnimals();
 
 function showSelectAnimals(types, animals) {
-    dom.resultText.innerText = `${types.join('、')} 共有${animals.length}个`;
+    let selectedTypeName = types.map((item) => {
+        return item.typeName;
+    });
+    dom.resultText.innerText = `${selectedTypeName.join('、') } 共有${animals.length}个`;
     if (animals.length === 0) {
         if (types.length === dom.checkboxes.length) {
             dom.resultContainer.innerHTML = '<div class="no-result">再玩就玩坏了w(ﾟДﾟ)w</div>';
         } else {
-            dom.resultContainer.innerHTML = '<div class="no-result"">没有动物符合条件!!!</div>';
+            dom.resultContainer.innerHTML = '<div class="no-result"">没有动物符合条件！！！</div>';
         }
         return;
     }
@@ -91,7 +117,7 @@ function showSelectAnimals(types, animals) {
         dom.resultContainer.appendChild(div);
         let div2 = document.createElement('div');
         div2.classList.add('animal-desc');
-        div2.innerHTML = getAnimalDescHtml(animals[i].value);
+        div2.innerHTML = getAnimalDescHtml(animals[i], types);
         div.appendChild(div2);
     }
 }
@@ -115,21 +141,21 @@ let selectedAnimalsArray = [];
 dom.checkboxes.forEach((checkbox) => {
     checkbox.addEventListener('change', () => {
         if (checkbox.checked) {
-            selected.type.push(animals[checkbox.value].typeName);
-            selectedAnimalsArray.push(animals[checkbox.value].animalsList);
+            selected.type.push(animalsTypeObj[checkbox.value]);
+            selectedAnimalsArray.push(animalsTypeObj[checkbox.value].animalsList);
         } else {
             selected.type = selected.type.filter((item) => {
-                return item !== animals[checkbox.value].typeName;
+                return item !== animalsTypeObj[checkbox.value];
             })
             selectedAnimalsArray = selectedAnimalsArray.filter((item) => {
-                return item !== animals[checkbox.value].animalsList;
+                return item !== animalsTypeObj[checkbox.value].animalsList;
             })
         }
         if (selected.type.length === 0) {
             showAllAnimals();
         } else {
             selected.animals = findCommonElements(...selectedAnimalsArray);
-            showSelectAnimals(selected.type, selected.animals);
+            showSelectAnimals(selected.type, selected.animals);  
         }
     });
 })

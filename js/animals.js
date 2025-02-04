@@ -80,9 +80,9 @@ var downy = ['niMo', 'maQiDuo', 'kaLuoTe', 'waTe', 'taiGe', 'baBi', 'waLi', 'moS
 //尾巴长
 var hasLongTail = ['eBa', 'diBaoTian', 'maQiDuo', 'taiGe', 'siPaQi', 'baGong', 'jiaFei', 'luoLuo', 'maoMao', 'maiKeSi', 'keDiSi', 'chuiZi', 'liWeiEr', 'guGu', 'buLuSi', 'aoLi', 'xiZi', 'kaTuo', 'xueNuo', 'duDu', 'aBao', 'maNaiQi', 'shanMu', 'fuJi', 'miaoMiao', 'xingQiTian'].map(value => animalsObj[value]);
 
-var animals = {
+var animalsTypeObj = {
     dog: { typeName: '犬科动物', value: 'dog', animalsList: dog },
-    cat: { typeName: '猫科动物', value: 'cat', animalsList: cat },
+    cat: { typeName: '猫科动物', value: 'cat', animalsList: cat },  
     eatMeat: { typeName: '吃肉的动物', value: 'eatMeat', animalsList: eatMeat },
     canDive: { typeName: '会潜水的动物', value: 'canDive', animalsList: canDive },
     canFly: { typeName: '会飞的动物', value: 'canFly', animalsList: canFly },
@@ -95,6 +95,19 @@ var animals = {
 };
 
 
-
-
+function addAnimalType(animalsObj) {
+    function _getAnimalType(animalsObj) {
+        var result = [];
+        for (var key in animalsTypeObj) {
+            if (animalsTypeObj[key].animalsList.indexOf(animalsObj) >= 0) {
+                result.push(animalsTypeObj[key].value);
+            }
+        }
+        return result;
+    }
+    for (var a in animalsObj) {
+        animalsObj[a].type = _getAnimalType(animalsObj[a]);
+    }
+}
+addAnimalType(animalsObj);
 

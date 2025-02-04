@@ -105,7 +105,7 @@ input:checked+.desc {
     background: rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     padding: 10px 0 5px;
-    color: #0084ff;
+    color: #8ee1e1;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -116,6 +116,7 @@ input:checked+.desc {
 }
 
 .animal-desc .animal-name {
+    color: #f3f3f3;
     margin-bottom: 5px;
 }
 
@@ -123,9 +124,16 @@ input:checked+.desc {
     margin-bottom: 5px;
 }
 
+.animal-type.selected {
+    color: #7eff6b;
+}
+
+.animal-type.selected::after {
+    content: " ✓";
+}
 
 .result-item:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 .no-result {
@@ -139,6 +147,11 @@ input:checked+.desc {
 
     a {
         color: #409eff;
+    }
+
+    .version-desc{
+        font-size: 12px;
+        margin-top: 10px;
     }
 }
 
