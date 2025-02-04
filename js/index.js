@@ -1,14 +1,14 @@
-//整个页面阻止右键行为
+// 作者:HandsomeTB
 document.addEventListener('contextmenu', function (e) {
     e.preventDefault();
 })
 
-//传入一个动物对象，返回这个动物的描述
+//传入一个动物对象，返回这个动物的描述HTML
 function getAnimalDescHtml(animalObj, selectedTypes) {
+    let type = animalObj.type;
+    let name = animalObj.name;
+    var html = `<p class="animal-name">${name}</p>\n`;
     if (!selectedTypes) {
-        let type = animalObj.type;
-        let name = animalObj.name;
-        var html = `<p class="animal-name">${name}</p>\n`;
         for (var i = 0; i < type.length; i++) {
             for (var key in animalsTypeObj) {
                 if (animalsTypeObj[key].value === type[i]) {
@@ -16,37 +16,31 @@ function getAnimalDescHtml(animalObj, selectedTypes) {
                 }
             }
         }
-        return html;
     } else {
-        let type = animalObj.type;
-        let name = animalObj.name;
-        var html = `<p class="animal-name">${name}</p>\n`;
         for (var i = 0; i < type.length; i++) {
             for (var key in animalsTypeObj) {
                 if (animalsTypeObj[key].value === type[i]) {
                     if (selectedTypes.map((item) => { return item.value }).includes(type[i])) {
-                        html += `<p class="animal-type selected">${animalsTypeObj[key].typeName}</p>\n`;
+                        html += `<p class="animal-type selected">${animalsTypeObj[key].typeName}<i class="iconfont icon-dui"></i></p>
+                        `;
                     } else {
                         html += `<p class="animal-type">${animalsTypeObj[key].typeName}</p>\n`;
                     }
                 }
             }
         }
-        return html;
-        
-     }
-    
-    
+    }
+    return html;
 }
-
 
 
 var dom = {
     resultText: document.querySelector('.result-area .text'),
     resultContainer: document.querySelector('.result-area .result-container'),
-    // checkboxes: document.querySelectorAll('input[type="checkbox"]'),
+    checkboxes: null,//document.querySelectorAll('input[type="checkbox"]')
     chooseContainer: document.querySelector('.choose-area'),
     fixText: document.querySelector('.result-area .text'),
+    resultTtem: null,//document.querySelectorAll('.result-item')
 }
 
 
@@ -82,16 +76,14 @@ function showAllAnimals() {
 
     dom.resultText.innerText = `所有动物 共有${allAnimalsObj.length}个`;
     dom.resultContainer.innerHTML = '';
+    let html = '';
     for (let i = 0; i < allAnimalsObj.length; i++) {
-        let div = document.createElement('div');
-        div.classList.add('result-item');
-        div.classList.add(allAnimalsObj[i].value);
-        dom.resultContainer.appendChild(div);
-        let div2 = document.createElement('div');
-        div2.classList.add('animal-desc');
-        div2.innerHTML = getAnimalDescHtml(allAnimalsObj[i]);
-        div.appendChild(div2);
+        html += `<div class="result-item ${allAnimalsObj[i].value}">
+                    <div class="animal-desc">${getAnimalDescHtml(allAnimalsObj[i])}</div>
+                </div>`;
     }
+    dom.resultContainer.innerHTML = html;
+    addResultCardEvent();
 }
 
 showAllAnimals();
@@ -100,7 +92,7 @@ function showSelectAnimals(types, animals) {
     let selectedTypeName = types.map((item) => {
         return item.typeName;
     });
-    dom.resultText.innerText = `${selectedTypeName.join('、') } 共有${animals.length}个`;
+    dom.resultText.innerText = `${selectedTypeName.join('、')} 共有${animals.length}个`;
     if (animals.length === 0) {
         if (types.length === dom.checkboxes.length) {
             dom.resultContainer.innerHTML = '<div class="no-result">再玩就玩坏了w(ﾟДﾟ)w</div>';
@@ -110,16 +102,14 @@ function showSelectAnimals(types, animals) {
         return;
     }
     dom.resultContainer.innerHTML = '';
+    let html = '';
     for (let i = 0; i < animals.length; i++) {
-        let div = document.createElement('div');
-        div.classList.add('result-item');
-        div.classList.add(animals[i].value);
-        dom.resultContainer.appendChild(div);
-        let div2 = document.createElement('div');
-        div2.classList.add('animal-desc');
-        div2.innerHTML = getAnimalDescHtml(animals[i], types);
-        div.appendChild(div2);
+        html += `<div class="result-item ${animals[i].value}">
+                    <div class="animal-desc">${getAnimalDescHtml(animals[i], types)}</div>
+                </div>`;
     }
+    dom.resultContainer.innerHTML = html;
+    addResultCardEvent();
 }
 
 function findCommonElements(...arrays) {
@@ -155,7 +145,23 @@ dom.checkboxes.forEach((checkbox) => {
             showAllAnimals();
         } else {
             selected.animals = findCommonElements(...selectedAnimalsArray);
-            showSelectAnimals(selected.type, selected.animals);  
+            showSelectAnimals(selected.type, selected.animals);
         }
     });
 })
+
+function addResultCardEvent() {
+    dom.resultTtem = document.querySelectorAll('.result-item');
+    dom.resultTtem.forEach((item) => {
+        let timer = null;
+        item.addEventListener('mouseenter', () => {
+            clearTimeout(timer);
+            item.classList.add('hover');
+        });
+        item.addEventListener('mouseleave', () => {
+            timer = setTimeout(() => {
+                item.classList.remove('hover');
+            }, 500);
+        });
+    })
+}

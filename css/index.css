@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+@import url("https://at.alicdn.com/t/c/font_4820417_oc9b2kyn32m.css");
+
 #app {
     position: fixed;
     top: 0;
@@ -7,12 +10,17 @@
     box-sizing: border-box;
     overflow: auto;
     min-width: 285px;
+    background: #f3f3f3;
 }
 
 .header .title {
     text-align: center;
     color: #409eff;
     padding-top: 15px;
+    text-transform: uppercase;
+    font-family: 'Luckiest Guy';
+    font-size: 30px;
+    text-shadow: 1px -1px #fff, -1px 1px #999, -2px 2px 2px #808080;
 }
 
 .choose-area {
@@ -41,7 +49,6 @@
         display: block;
         width: 100%;
         height: 100%;
-
     }
 }
 
@@ -101,7 +108,7 @@ input:checked+.desc {
     position: absolute;
     width: 150%;
     left: -25%;
-    bottom: 110px;
+    bottom: 0px;
     background: rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     padding: 10px 0 5px;
@@ -112,7 +119,9 @@ input:checked+.desc {
     align-items: center;
     font-size: 12px;
     font-weight: bold;
-    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s;
+    pointer-events: none;
 }
 
 .animal-desc .animal-name {
@@ -126,10 +135,11 @@ input:checked+.desc {
 
 .animal-type.selected {
     color: #7eff6b;
-}
-
-.animal-type.selected::after {
-    content: " ✓";
+    .iconfont{
+        vertical-align: middle;
+        margin-left: 3px;
+            font-size: 10px;
+    }
 }
 
 .result-item:hover {
@@ -149,7 +159,7 @@ input:checked+.desc {
         color: #409eff;
     }
 
-    .version-desc{
+    .version-desc {
         font-size: 12px;
         margin-top: 10px;
     }
@@ -164,10 +174,10 @@ input:checked+.desc {
         height: 95px;
     }
 
-    .result-item:hover {
+    .result-item.hover {
         .animal-desc {
-            visibility: visible;
-            bottom: 110px
+            opacity: 1;
+            bottom: 110px;
         }
     }
 
@@ -197,10 +207,10 @@ input:checked+.desc {
         line-height: 25px;
     }
 
-    .result-item:hover {
+    .result-item.hover {
         .animal-desc {
-            visibility: visible;
-            bottom: 185px
+            opacity: 1;
+            bottom: 185px;
         }
     }
 
@@ -219,10 +229,10 @@ input:checked+.desc {
 
     }
 
-    .result-item:hover {
+    .result-item.hover {
         .animal-desc {
-            visibility: visible;
-            bottom: 190px
+            opacity: 1;
+            bottom: 190px;
         }
     }
 
