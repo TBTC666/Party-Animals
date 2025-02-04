@@ -3,6 +3,21 @@ document.addEventListener('contextmenu', function (e) {
     e.preventDefault();
 })
 
+//传入一个动物对象，返回这个动物的描述
+function getAnimalDescHtml(animal) {
+    var html = '';
+    animal = animalsObj[animal];
+    if (animal) {
+        html = `<p class="animal-name">${animal.name}</p>\n`;
+        for (var key in animals) {
+            if (animals[key].animalsList.indexOf(animal) >= 0) {
+                html += `<p class="animal-type">${animals[key].typeName}</p>\n`;
+            }
+        }
+    }
+    return html;
+}
+
 var dom = {
     resultText: document.querySelector('.result-area .text'),
     resultContainer: document.querySelector('.result-area .result-container'),
@@ -49,6 +64,10 @@ function showAllAnimals() {
         div.classList.add('result-item');
         div.classList.add(allAnimalsObj[i].value);
         dom.resultContainer.appendChild(div);
+        let div2 = document.createElement('div');
+        div2.classList.add('animal-desc');
+        div2.innerHTML = getAnimalDescHtml(allAnimalsObj[i].value);
+        div.appendChild(div2);
     }
 }
 
@@ -66,6 +85,10 @@ function showSelectAnimals(types, animals) {
         div.classList.add('result-item');
         div.classList.add(animals[i].value);
         dom.resultContainer.appendChild(div);
+        let div2 = document.createElement('div');
+        div2.classList.add('animal-desc');
+        div2.innerHTML = getAnimalDescHtml(animals[i].value);
+        div.appendChild(div2);
     }
 }
 
