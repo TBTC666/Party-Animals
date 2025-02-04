@@ -143,6 +143,7 @@ a{
 /* 表单相关 */
 input,textarea,button,select{
     border: none;
+    margin: 0;
 }
 
 input:focus,textarea:focus,button:focus,select:focus{

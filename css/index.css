@@ -6,11 +6,13 @@
     height: 100%;
     box-sizing: border-box;
     overflow: auto;
+    min-width: 285px;
 }
 
 .header .title {
     text-align: center;
     color: #409eff;
+    padding-top: 15px;
 }
 
 .choose-area {
@@ -18,17 +20,19 @@
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
-    margin-top: 20px;
+    margin: 15px 0;
 }
+
 
 .choose-item {
     height: 30px;
     line-height: 30px;
+    font-size: 16px;
     padding: 2px 5px;
-    border: 2px solid #ccc;
+    outline: 2px solid #ccc;
     border-radius: 5px;
     transition: all 0.3s;
-    margin: 3px 3px;
+    margin: 5px;
     color: #646464;
     cursor: pointer;
     label {
@@ -41,7 +45,20 @@
 }
 
 .choose-item:has(input:checked) {
-    border-color: #409eff;
+    outline-color: #409eff;
+}
+
+.choose-item input[type="checkbox"] {
+    vertical-align: bottom;
+    height: 100%;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.choose-item input[type="checkbox"] + .desc {
+    display: inline-block;
+    height: 100%;
+    cursor: pointer;
 }
 
 input:checked+.desc {
@@ -63,14 +80,15 @@ input:checked+.desc {
 }
 
 .result-item {
-    width: 140px;
+    --w:140px;
+    width: var(--w);
     height: 178px;
     border-radius: 10%;
     box-shadow: 0px 0px 10px #3c3c3c;
     transition: transform 0.3s ease-in-out;
     cursor: pointer;
     --n: 6;
-    --space: calc(100% / var(--n) - 140px);
+    --space: calc(100% / var(--n) - var(--w));
     --m: calc(var(--space) / 2);
     margin: 10px var(--m);
     /* border: 2px solid #ab0000; */
@@ -81,10 +99,18 @@ input:checked+.desc {
 /* 小屏幕，手机 */
 @media screen and (max-width: 768px) {
     .result-item {
-        --n: 2;
+        --n: 3;
+        --space: calc(100% / var(--n) - var(--w));
+        --w: 75px;
+        height: 95px;
     }
     .result-item:active {
         transform: scale(1.1);
+    }
+    .choose-item {
+        font-size: 14px;
+        height: 25px;
+        line-height: 25px;
     }
     * {
         cursor: default !important;
@@ -95,6 +121,14 @@ input:checked+.desc {
 @media screen and (min-width: 769px) and (max-width: 1024px) {
     .result-item {
         --n: 3;
+        --space: calc(100% / var(--n) - var(--w));
+        --w: 140px;
+        height: 178px;
+    }
+    .choose-item{
+        font-size: 14px;
+        height: 25px;
+        line-height: 25px;
     }
 }
 
@@ -102,9 +136,17 @@ input:checked+.desc {
 @media screen and (min-width: 1025px) {
     .result-item {
         --n: 6;
+        --space: calc(100% / var(--n) - var(--w));
+        --w: 140px;
+        height: 178px;
 
     }
     .result-item:hover {
         transform: scale(1.1);
+    }
+    .choose-item {
+        font-size: 16px;
+        height: 30px;
+        line-height: 30px;
     }
 }
