@@ -56,7 +56,7 @@ function showAllAnimals() {
         });
         return acc;
     }, []);
-    
+
     dom.resultText.innerText = `所有动物 共有${allAnimalsObj.length}个`;
     dom.resultContainer.innerHTML = '';
     for (let i = 0; i < allAnimalsObj.length; i++) {
@@ -76,7 +76,11 @@ showAllAnimals();
 function showSelectAnimals(types, animals) {
     dom.resultText.innerText = `${types.join('、')} 共有${animals.length}个`;
     if (animals.length === 0) {
-        dom.resultContainer.innerHTML = '<div style="width:100%;color:#d53333">没有动物符合条件</div>';
+        if (types.length === dom.checkboxes.length) {
+            dom.resultContainer.innerHTML = '<div class="no-result">再玩就玩坏了w(ﾟДﾟ)w</div>';
+        } else {
+            dom.resultContainer.innerHTML = '<div class="no-result"">没有动物符合条件!!!</div>';
+        }
         return;
     }
     dom.resultContainer.innerHTML = '';

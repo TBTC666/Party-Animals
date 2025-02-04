@@ -102,7 +102,7 @@ input:checked+.desc {
     width: 150%;
     left: -25%;
     bottom: 110px;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     padding: 10px 0 5px;
     color: #0084ff;
@@ -124,6 +124,24 @@ input:checked+.desc {
 }
 
 
+.result-item:hover {
+    transform: scale(1.1);
+}
+
+.no-result {
+    width: 100%;
+    color: #d53333;
+}
+
+.footer {
+    text-align: center;
+    padding: 10px 0;
+
+    a {
+        color: #409eff;
+    }
+}
+
 /* 小屏幕，手机 */
 @media screen and (max-width: 768px) {
     .result-item {
@@ -133,9 +151,7 @@ input:checked+.desc {
         height: 95px;
     }
 
-    .result-item:active {
-        transform: scale(1.1);
-
+    .result-item:hover {
         .animal-desc {
             visibility: visible;
             bottom: 110px
@@ -168,9 +184,7 @@ input:checked+.desc {
         line-height: 25px;
     }
 
-    .result-item:active {
-        transform: scale(1.1);
-
+    .result-item:hover {
         .animal-desc {
             visibility: visible;
             bottom: 185px
@@ -193,8 +207,6 @@ input:checked+.desc {
     }
 
     .result-item:hover {
-        transform: scale(1.1);
-
         .animal-desc {
             visibility: visible;
             bottom: 190px
