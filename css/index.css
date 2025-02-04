@@ -136,9 +136,9 @@ input:checked+.desc {
 .animal-type.selected {
     color: #7eff6b;
     .iconfont{
-        vertical-align: bottom;
+        vertical-align: middle;
         margin-left: 3px;
-            font-size: 10px;
+        font-size: 8px;
     }
 }
 
