@@ -7,7 +7,7 @@ document.addEventListener('contextmenu', function (e) {
 function getAnimalDescHtml(animalObj, selectedTypes) {
     let type = animalObj.type;
     let name = animalObj.name;
-    var html = `<div class="arrow"></div><p class="animal-name">${name}</p>`;
+    var html = `<p class="animal-name">${name}</p>`;
     if (!selectedTypes) {
         for (var i = 0; i < type.length; i++) {
             for (var key in animalsTypeObj) {

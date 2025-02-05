@@ -179,7 +179,9 @@ input:checked+.desc {
     }
 }
 
-.animal-desc .arrow{
+
+.animal-desc::after {
+    content: '';
     position: absolute;
     bottom: -10px;
     left: 50%;
