@@ -1,24 +1,24 @@
 // 作者:HandsomeTB
 document.addEventListener('contextmenu', function (e) {
     e.preventDefault();
-})
+});
 
 //传入一个动物对象，返回这个动物的描述HTML
 function getAnimalDescHtml(animalObj, selectedTypes) {
     let type = animalObj.type;
     let name = animalObj.name;
-    var html = `<p class="animal-name">${name}</p>`;
+    let html = `<p class="animal-name">${name}</p>`;
     if (!selectedTypes) {
-        for (var i = 0; i < type.length; i++) {
-            for (var key in animalsTypeObj) {
+        for (let i = 0; i < type.length; i++) {
+            for (let key in animalsTypeObj) {
                 if (animalsTypeObj[key].value === type[i]) {
                     html += `<p class="animal-type">${animalsTypeObj[key].typeName}</p>`;
                 }
             }
         }
     } else {
-        for (var i = 0; i < type.length; i++) {
-            for (var key in animalsTypeObj) {
+        for (let i = 0; i < type.length; i++) {
+            for (let key in animalsTypeObj) {
                 if (animalsTypeObj[key].value === type[i]) {
                     if (selectedTypes.map((item) => { return item.value }).includes(type[i])) {
                         html += `<p class="animal-type selected">${animalsTypeObj[key].typeName}<i     class="iconfont icon-dui"></i></p>
@@ -31,8 +31,7 @@ function getAnimalDescHtml(animalObj, selectedTypes) {
         }
     }
     return html;
-}
-
+};
 
 var dom = {
     resultText: document.querySelector('.result-area .text'),
@@ -40,9 +39,8 @@ var dom = {
     checkboxes: null,//document.querySelectorAll('input[type="checkbox"]')
     chooseContainer: document.querySelector('.choose-area'),
     fixText: document.querySelector('.result-area .text'),
-    resultTtem: null,//document.querySelectorAll('.result-item')
-}
-
+    resultItem: null,//document.querySelectorAll('.result-item')
+};
 
 function upDateChooseArea() {
     dom.chooseContainer.innerHTML = ''
@@ -56,7 +54,7 @@ function upDateChooseArea() {
         dom.chooseContainer.insertAdjacentHTML('beforeend', html);
     }
     dom.checkboxes = document.querySelectorAll('input[type="checkbox"]');
-}
+};
 
 upDateChooseArea();
 
@@ -84,7 +82,7 @@ function showAllAnimals() {
     }
     dom.resultContainer.innerHTML = html;
     addResultCardEvent();
-}
+};
 
 showAllAnimals();
 
@@ -110,7 +108,7 @@ function showSelectAnimals(types, animals) {
     }
     dom.resultContainer.innerHTML = html;
     addResultCardEvent();
-}
+};
 
 function findCommonElements(...arrays) {
     if (arrays.length === 0) {
@@ -123,7 +121,7 @@ function findCommonElements(...arrays) {
         });
     }
     return common;
-}
+};
 
 let selected = { type: [], animals: [] };
 let selectedAnimalsArray = [];
@@ -134,12 +132,8 @@ dom.checkboxes.forEach((checkbox) => {
             selected.type.push(animalsTypeObj[checkbox.value]);
             selectedAnimalsArray.push(animalsTypeObj[checkbox.value].animalsList);
         } else {
-            selected.type = selected.type.filter((item) => {
-                return item !== animalsTypeObj[checkbox.value];
-            })
-            selectedAnimalsArray = selectedAnimalsArray.filter((item) => {
-                return item !== animalsTypeObj[checkbox.value].animalsList;
-            })
+            selected.type = selected.type.filter(item => item !== animalsTypeObj[checkbox.value]);
+            selectedAnimalsArray = selectedAnimalsArray.filter(item => item !== animalsTypeObj[checkbox.value].animalsList);
         }
         if (selected.type.length === 0) {
             showAllAnimals();
@@ -148,11 +142,11 @@ dom.checkboxes.forEach((checkbox) => {
             showSelectAnimals(selected.type, selected.animals);
         }
     });
-})
+});
 
 function addResultCardEvent() {
-    dom.resultTtem = document.querySelectorAll('.result-item');
-    dom.resultTtem.forEach((item) => {
+    dom.resultItem = document.querySelectorAll('.result-item');
+    dom.resultItem.forEach((item) => {
         let timer = null;
         item.addEventListener('mouseenter', () => {
             clearTimeout(timer);
@@ -163,5 +157,5 @@ function addResultCardEvent() {
                 item.classList.remove('hover');
             }, 500);
         });
-    })
-}
+    });
+};

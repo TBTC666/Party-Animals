@@ -67,7 +67,6 @@
     margin: 15px 0;
 }
 
-
 .choose-item {
     height: 30px;
     line-height: 30px;
@@ -79,7 +78,6 @@
     margin: 5px;
     color: #646464;
     cursor: pointer;
-
     label {
         cursor: inherit;
         display: block;
@@ -179,7 +177,6 @@ input:checked+.desc {
     }
 }
 
-
 .animal-desc::after {
     content: '';
     position: absolute;
@@ -193,7 +190,6 @@ input:checked+.desc {
     border-top: 10px solid rgba(0, 0, 0, 0.3);
 }
 
-
 .result-item:hover {
     transform: scale(1.05);
 }
@@ -206,11 +202,9 @@ input:checked+.desc {
 .footer {
     text-align: center;
     padding: 10px 0;
-
     a {
         color: #409eff;
     }
-
     .version-desc {
         font-size: 12px;
         margin-top: 10px;
@@ -226,21 +220,18 @@ input:checked+.desc {
         height: 95px;
         cursor: default;
     }
-
     .result-item.hover {
         .animal-desc {
             opacity: 1;
             bottom: 110px;
         }
     }
-
     .choose-item {
         font-size: 14px;
         height: 25px;
         line-height: 25px;
         cursor: default;
     }
-
 }
 
 /* 中屏幕，平板 */
@@ -251,13 +242,11 @@ input:checked+.desc {
         --w: 140px;
         height: 178px;
     }
-
     .choose-item {
         font-size: 14px;
         height: 25px;
         line-height: 25px;
     }
-
     .result-item.hover {
         .animal-desc {
             opacity: 1;
@@ -275,14 +264,12 @@ input:checked+.desc {
         height: 178px;
 
     }
-
     .result-item.hover {
         .animal-desc {
             opacity: 1;
             bottom: 190px;
         }
     }
-
     .choose-item {
         font-size: 16px;
         height: 30px;

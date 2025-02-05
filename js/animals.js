@@ -55,58 +55,58 @@ var animalsObj = {
     taiLeiSi: { name: '泰雷斯', value: 'taiLeiSi' },
 };
 
-var dog = ['niMo', 'siPaQi', 'baGong', 'luoLuo', 'maoMao', 'maiKeSi', 'baiCaiGou', 'kaTuo', 'xueNuo', 'sangNi', 'shanMu', 'haShiQi', 'luoEn', 'siDaiLa'].map(value => animalsObj[value]);
+var dog = ['niMo', 'siPaQi', 'baGong', 'luoLuo', 'maoMao', 'maiKeSi', 'baiCaiGou', 'kaTuo', 'xueNuo', 'sangNi', 'shanMu', 'haShiQi', 'luoEn', 'siDaiLa'];
 
-var cat = ['maQiDuo', 'taiGe', 'jiaFei', 'liWeiEr', 'xiZi', 'duDu', 'maNaiQi', 'miaoMiao', 'xingQiTian'].map(value => animalsObj[value]);
+var cat = ['maQiDuo', 'taiGe', 'jiaFei', 'liWeiEr', 'xiZi', 'duDu', 'maNaiQi', 'miaoMiao', 'xingQiTian'];
 
-var eatMeat = ['niMo', 'eBa', 'diBaoTian', 'maQiDuo', 'waTe', 'taiGe', 'siPaQi', 'tuSiKaEr', 'baGong', 'jiaFei', 'luoLuo', 'muMu', 'maoMao', 'maiKeSi', 'chuiZi', 'liWeiEr', 'buLuSi', 'xiZi', 'kaTuo', 'xueNuo', 'duDu', 'ciTou', 'sangNi', 'maNaiQi', 'shanMu', 'haShiQi', 'miaoMiao', 'xingQiTian', 'luoEn', 'siDaiLa'].map(value => animalsObj[value]);
+var eatMeat = ['niMo', 'eBa', 'diBaoTian', 'maQiDuo', 'waTe', 'taiGe', 'siPaQi', 'tuSiKaEr', 'baGong', 'jiaFei', 'luoLuo', 'muMu', 'maoMao', 'maiKeSi', 'chuiZi', 'liWeiEr', 'buLuSi', 'xiZi', 'kaTuo', 'xueNuo', 'duDu', 'ciTou', 'sangNi', 'maNaiQi', 'shanMu', 'haShiQi', 'miaoMiao', 'xingQiTian', 'luoEn', 'siDaiLa'];
 
-var canDive = ['eBa', 'waTe', 'aGua', 'aDai', 'tuSiKaEr', 'chuiZi', 'buLuSi', 'aBao', 'haShiQi'].map(value => animalsObj[value]);
+var canDive = ['eBa', 'waTe', 'aGua', 'aDai', 'tuSiKaEr', 'chuiZi', 'buLuSi', 'aBao', 'haShiQi'];
 
-var eartPlants = ['kaLuoTe', 'peiGen', 'baBi', 'waLi', 'moSi', 'aGua', 'aDai', 'keDiSi', 'baiCaiGou', 'guGu', 'youLuoSha', 'baoBo', 'xiaoXin', 'keLe', 'gaoFei', 'aoMuNuoMu', 'douDou', 'fuJi', 'fuBao'].map(value => animalsObj[value]);
+var eartPlants = ['kaLuoTe', 'peiGen', 'baBi', 'waLi', 'moSi', 'aGua', 'aDai', 'keDiSi', 'baiCaiGou', 'guGu', 'youLuoSha', 'baoBo', 'xiaoXin', 'keLe', 'gaoFei', 'aoMuNuoMu', 'douDou', 'fuJi', 'fuBao'];
 
-var canFly = ['aGua', 'aDai', 'muMu', 'guGu', 'youLuoSha', 'baoLi', 'aBao'].map(value => animalsObj[value]);
+var canFly = ['aGua', 'aDai', 'muMu', 'guGu', 'youLuoSha', 'baoLi', 'aBao'];
 
 //有角
-var hasHorn = ['diBaoTian', 'waLi', 'moSi', 'keDiSi', 'baoLi', 'mieMie', 'aBao'].map(value => animalsObj[value]);
+var hasHorn = ['diBaoTian', 'waLi', 'moSi', 'keDiSi', 'baoLi', 'mieMie', 'aBao'];
 
-var hasBigEyes = ['eBa', 'diBaoTian', 'aGua', 'muMu', 'keDiSi', 'guGu', 'aoLi', 'mieMie', 'duDu', 'aBao', 'aoMuNuoMu', 'douDou', 'haShiQi'].map(value => animalsObj[value]);
+var hasBigEyes = ['eBa', 'diBaoTian', 'aGua', 'muMu', 'keDiSi', 'guGu', 'aoLi', 'mieMie', 'duDu', 'aBao', 'aoMuNuoMu', 'douDou', 'haShiQi'];
 
-var canLayEggs = ['eBa', 'diBaoTian', 'aGua', 'aDai', 'muMu', 'keDiSi', 'chuiZi', 'guGu', 'buLuSi', 'aBao', 'douDou', 'taiLeiSi'].map(value => animalsObj[value]);
+var canLayEggs = ['eBa', 'diBaoTian', 'aGua', 'aDai', 'muMu', 'keDiSi', 'chuiZi', 'guGu', 'buLuSi', 'aBao', 'douDou', 'taiLeiSi'];
 
 //毛茸茸
-var downy = ['niMo', 'maQiDuo', 'kaLuoTe', 'waTe', 'taiGe', 'baBi', 'waLi', 'moSi', 'baGong', 'jiaFei', 'luoLuo', 'maoMao', 'maiKeSi', 'liWeiEr', 'xiZi', 'kaTuo', 'baoBo', 'mieMie', 'duDu', 'ciTou', 'keLe', 'aBao', 'gaoFei', 'maNaiQi', 'shanMu', 'fuJi', 'fuBao', 'haShiQi', 'miaoMiao', 'xingQiTian', 'luoEn', 'siDaiLa'].map(value => animalsObj[value]);
+var downy = ['niMo', 'maQiDuo', 'kaLuoTe', 'waTe', 'taiGe', 'baBi', 'waLi', 'moSi', 'baGong', 'jiaFei', 'luoLuo', 'maoMao', 'maiKeSi', 'liWeiEr', 'xiZi', 'kaTuo', 'baoBo', 'mieMie', 'duDu', 'ciTou', 'keLe', 'aBao', 'gaoFei', 'maNaiQi', 'shanMu', 'fuJi', 'fuBao', 'haShiQi', 'miaoMiao', 'xingQiTian', 'luoEn', 'siDaiLa'];
 
 //尾巴长
-var hasLongTail = ['eBa', 'diBaoTian', 'maQiDuo', 'taiGe', 'siPaQi', 'baGong', 'jiaFei', 'luoLuo', 'maoMao', 'maiKeSi', 'keDiSi', 'chuiZi', 'liWeiEr', 'guGu', 'buLuSi', 'aoLi', 'xiZi', 'kaTuo', 'xueNuo', 'duDu', 'aBao', 'maNaiQi', 'shanMu', 'fuJi', 'miaoMiao', 'xingQiTian'].map(value => animalsObj[value]);
+var hasLongTail = ['eBa', 'diBaoTian', 'maQiDuo', 'taiGe', 'siPaQi', 'baGong', 'jiaFei', 'luoLuo', 'maoMao', 'maiKeSi', 'keDiSi', 'chuiZi', 'liWeiEr', 'guGu', 'buLuSi', 'aoLi', 'xiZi', 'kaTuo', 'xueNuo', 'duDu', 'aBao', 'maNaiQi', 'shanMu', 'fuJi', 'miaoMiao', 'xingQiTian'];
 
 var animalsTypeObj = {
-    dog: { typeName: '犬科动物', value: 'dog', animalsList: dog },
-    cat: { typeName: '猫科动物', value: 'cat', animalsList: cat },  
-    eatMeat: { typeName: '吃肉的动物', value: 'eatMeat', animalsList: eatMeat },
-    canDive: { typeName: '会潜水的动物', value: 'canDive', animalsList: canDive },
-    canFly: { typeName: '会飞的动物', value: 'canFly', animalsList: canFly },
-    eartPlants: { typeName: '吃植物的动物', value: 'eartPlants', animalsList: eartPlants },
-    hasHorn: { typeName: '头上长角的动物', value: 'hasHorn', animalsList: hasHorn },
-    hasBigEyes: { typeName: '眼睛大的动物', value: 'hasBigEyes', animalsList: hasBigEyes },
-    canLayEggs: { typeName: '会下蛋的动物', value: 'canLayEggs', animalsList: canLayEggs },
-    downy: { typeName: '毛茸茸的动物', value: 'downy', animalsList: downy },
-    hasLongTail: { typeName: '尾巴长的动物', value: 'hasLongTail', animalsList: hasLongTail },
+    dog: { typeName: '犬科动物', value: 'dog', animalsList: dog.map(value => animalsObj[value]) },
+    cat: { typeName: '猫科动物', value: 'cat', animalsList: cat.map(value => animalsObj[value]) },  
+    eatMeat: { typeName: '吃肉的动物', value: 'eatMeat', animalsList: eatMeat.map(value => animalsObj[value]) },
+    canDive: { typeName: '会潜水的动物', value: 'canDive', animalsList: canDive.map(value => animalsObj[value]) },
+    canFly: { typeName: '会飞的动物', value: 'canFly', animalsList: canFly.map(value => animalsObj[value]) },
+    eartPlants: { typeName: '吃植物的动物', value: 'eartPlants', animalsList: eartPlants.map(value => animalsObj[value]) },
+    hasHorn: { typeName: '头上长角的动物', value: 'hasHorn', animalsList: hasHorn.map(value => animalsObj[value]) },
+    hasBigEyes: { typeName: '眼睛大的动物', value: 'hasBigEyes', animalsList: hasBigEyes.map(value => animalsObj[value]) },
+    canLayEggs: { typeName: '会下蛋的动物', value: 'canLayEggs', animalsList: canLayEggs.map(value => animalsObj[value]) },
+    downy: { typeName: '毛茸茸的动物', value: 'downy', animalsList: downy.map(value => animalsObj[value]) },
+    hasLongTail: { typeName: '尾巴长的动物', value: 'hasLongTail', animalsList: hasLongTail.map(value => animalsObj[value]) },
 };
 
 
-function addAnimalType(animalsObj) {
-    function _getAnimalType(animalsObj) {
+function addAnimalType(animalsCollection) {
+    function _getAnimalType(animal) {
         var result = [];
         for (var key in animalsTypeObj) {
-            if (animalsTypeObj[key].animalsList.indexOf(animalsObj) >= 0) {
+            if (animalsTypeObj[key].animalsList.indexOf(animal) >= 0) {
                 result.push(animalsTypeObj[key].value);
             }
         }
         return result;
     }
-    for (var a in animalsObj) {
-        animalsObj[a].type = _getAnimalType(animalsObj[a]);
+    for (var a in animalsCollection) {
+        animalsCollection[a].type = _getAnimalType(animalsCollection[a]);
     }
 }
 addAnimalType(animalsObj);
