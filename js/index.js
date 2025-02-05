@@ -7,12 +7,12 @@ document.addEventListener('contextmenu', function (e) {
 function getAnimalDescHtml(animalObj, selectedTypes) {
     let type = animalObj.type;
     let name = animalObj.name;
-    var html = `<p class="animal-name">${name}</p>\n`;
+    var html = `<div class="arrow"></div><p class="animal-name">${name}</p>`;
     if (!selectedTypes) {
         for (var i = 0; i < type.length; i++) {
             for (var key in animalsTypeObj) {
                 if (animalsTypeObj[key].value === type[i]) {
-                    html += `<p class="animal-type">${animalsTypeObj[key].typeName}</p>\n`;
+                    html += `<p class="animal-type">${animalsTypeObj[key].typeName}</p>`;
                 }
             }
         }
@@ -21,10 +21,10 @@ function getAnimalDescHtml(animalObj, selectedTypes) {
             for (var key in animalsTypeObj) {
                 if (animalsTypeObj[key].value === type[i]) {
                     if (selectedTypes.map((item) => { return item.value }).includes(type[i])) {
-                        html += `<p class="animal-type selected">${animalsTypeObj[key].typeName}<i class="iconfont icon-dui"></i></p>
+                        html += `<p class="animal-type selected">${animalsTypeObj[key].typeName}<i     class="iconfont icon-dui"></i></p>
                         `;
                     } else {
-                        html += `<p class="animal-type">${animalsTypeObj[key].typeName}</p>\n`;
+                        html += `<p class="animal-type">${animalsTypeObj[key].typeName}</p>`;
                     }
                 }
             }
