@@ -78,6 +78,7 @@
     margin: 5px;
     color: #646464;
     cursor: pointer;
+
     label {
         cursor: inherit;
         display: block;
@@ -127,7 +128,7 @@ input:checked+.desc {
     height: 178px;
     border-radius: 10%;
     box-shadow: 0px 0px 10px #3c3c3c;
-    transition: transform 0.3s ease-in-out;
+    transition: transform var(--t,0s) ease-in-out;
     cursor: pointer;
     --n: 6;
     --space: calc(100% / var(--n) - var(--w));
@@ -136,6 +137,7 @@ input:checked+.desc {
     /* border: 2px solid #ab0000; */
     box-sizing: border-box;
     position: relative;
+    transform: perspective(500px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
 }
 
 .result-item .animal-desc {
@@ -190,9 +192,7 @@ input:checked+.desc {
     border-top: 10px solid rgba(0, 0, 0, 0.3);
 }
 
-.result-item:hover {
-    transform: scale(1.05);
-}
+
 
 .no-result {
     width: 100%;
@@ -202,9 +202,11 @@ input:checked+.desc {
 .footer {
     text-align: center;
     padding: 10px 0;
+
     a {
         color: #409eff;
     }
+
     .version-desc {
         font-size: 12px;
         margin-top: 10px;
@@ -220,18 +222,22 @@ input:checked+.desc {
         height: 95px;
         cursor: default;
     }
+
     .result-item.hover {
+        box-shadow: 0px 0px 20px #0088ff;
         .animal-desc {
             opacity: 1;
             bottom: 110px;
         }
     }
+
     .choose-item {
         font-size: 14px;
         height: 25px;
         line-height: 25px;
         cursor: default;
     }
+
 }
 
 /* 中屏幕，平板 */
@@ -242,17 +248,21 @@ input:checked+.desc {
         --w: 140px;
         height: 178px;
     }
+
     .choose-item {
         font-size: 14px;
         height: 25px;
         line-height: 25px;
     }
+
     .result-item.hover {
+         box-shadow: 0px 0px 20px #0088ff;
         .animal-desc {
             opacity: 1;
             bottom: 185px;
         }
     }
+
 }
 
 /* 大屏幕，电脑 */
@@ -264,15 +274,22 @@ input:checked+.desc {
         height: 178px;
 
     }
+
     .result-item.hover {
+        
         .animal-desc {
             opacity: 1;
             bottom: 190px;
         }
     }
+
     .choose-item {
         font-size: 16px;
         height: 30px;
         line-height: 30px;
+    }
+
+    .result-item:hover {
+        box-shadow: 0px 0px 20px #0088ff;
     }
 }

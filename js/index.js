@@ -144,18 +144,77 @@ dom.checkboxes.forEach((checkbox) => {
     });
 });
 
+
+
+function getRotate(range, value, max) {
+    return value / max * (range[1] - range[0]) + range[0];
+}
+
+//检测是否为移动端
+function isMove() {
+    return window.matchMedia("(max-width: 768px)").matches;
+};
+
+window.addEventListener('resize', () => {
+    addResultCardEvent();
+ });
+
 function addResultCardEvent() {
     dom.resultItem = document.querySelectorAll('.result-item');
     dom.resultItem.forEach((item) => {
-        let timer = null;
-        item.addEventListener('mouseenter', () => {
-            clearTimeout(timer);
-            item.classList.add('hover');
-        });
-        item.addEventListener('mouseleave', () => {
-            timer = setTimeout(() => {
-                item.classList.remove('hover');
-            }, 500);
-        });
+        if (!isMove()) {
+            let xRange = [-10, 10];
+            let yRange = [-10, 10];
+            let timer = null;
+            item.addEventListener('mouseenter', () => {
+                item.style.setProperty('--t', `0s`);
+                clearTimeout(timer);
+                item.classList.add('hover');
+            });
+            item.addEventListener('mouseleave', () => {
+                item.style.setProperty('--t', `1s`);
+                item.style.setProperty('--ry', `0deg`);
+                item.style.setProperty('--rx', `0deg`);
+                timer = setTimeout(() => {
+                    item.classList.remove('hover');
+                }, 500);
+            });
+            item.addEventListener('mousemove', (e) => {
+                let { offsetX, offsetY } = e;
+                let { offsetWidth, offsetHeight } = item;
+                let ry = -getRotate(yRange, offsetX, offsetWidth);
+                let rx = getRotate(xRange, offsetY, offsetHeight);
+                item.style.setProperty('--ry', `${ry}deg`);
+                item.style.setProperty('--rx', `${rx}deg`);
+            });
+            
+        } else {
+            let xRange = [-5, 5];
+            let yRange = [-5, 5];
+            let timer = null;
+            let startX, startY;
+            item.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                item.style.setProperty('--t', `0s`);
+                clearTimeout(timer);
+                item.classList.add('hover');
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+            });
+            item.addEventListener('touchmove', (e) => {
+                let ry = -getRotate(yRange, e.touches[0].clientX - startX, item.offsetWidth);
+                let rx = getRotate(xRange, e.touches[0].clientY - startY, item.offsetHeight);
+                item.style.setProperty('--ry', `${ry}deg`);
+                item.style.setProperty('--rx', `${rx}deg`);
+            });
+            item.addEventListener('touchend', () => {
+                item.style.setProperty('--t', `1s`);
+                item.style.setProperty('--ry', `0deg`);
+                item.style.setProperty('--rx', `0deg`);
+                timer = setTimeout(() => {
+                    item.classList.remove('hover');
+                }, 500);
+            });
+        }
     });
 };
