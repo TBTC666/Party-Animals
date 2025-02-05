@@ -81,7 +81,7 @@
     cursor: pointer;
 
     label {
-        cursor: pointer;
+        cursor: inherit;
         display: block;
         width: 100%;
         height: 100%;
@@ -96,13 +96,13 @@
     vertical-align: bottom;
     height: 100%;
     display: inline-block;
-    cursor: pointer;
+    cursor: inherit;
 }
 
 .choose-item input[type="checkbox"]+.desc {
     display: inline-block;
     height: 100%;
-    cursor: pointer;
+    cursor: inherit;
 }
 
 input:checked+.desc {
@@ -195,7 +195,7 @@ input:checked+.desc {
 
 
 .result-item:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 .no-result {
@@ -224,6 +224,7 @@ input:checked+.desc {
         --space: calc(100% / var(--n) - var(--w));
         --w: 75px;
         height: 95px;
+        cursor: default;
     }
 
     .result-item.hover {
@@ -237,11 +238,9 @@ input:checked+.desc {
         font-size: 14px;
         height: 25px;
         line-height: 25px;
+        cursor: default;
     }
 
-    * {
-        cursor: default !important;
-    }
 }
 
 /* 中屏幕，平板 */
@@ -264,10 +263,6 @@ input:checked+.desc {
             opacity: 1;
             bottom: 185px;
         }
-    }
-
-    * {
-        cursor: default !important;
     }
 }
 
