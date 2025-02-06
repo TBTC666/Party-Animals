@@ -23,7 +23,7 @@
     color: #409eff;
 }
 
-.header .txt{
+.header .txt {
     margin-top: 10px;
     font-family: 'Arial';
 
@@ -70,25 +70,31 @@
 .choose-area {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
     align-items: center;
     margin: 15px 0;
 }
 
 .choose-item {
+    --n: 11;
+    --w: calc(100% / var(--n) - 20px);
+    width: var(--w);
+    --space: calc(100% / var(--n) - var(--w));
+    --m: calc(var(--space) / 2);
     height: 30px;
     line-height: 30px;
-    font-size: 16px;
-    padding: 2px 5px;
     outline: 2px solid #ccc;
     border-radius: 5px;
     transition: all 0.3s;
-    margin: 5px;
+    margin: 5px var(--m);
     color: #646464;
     cursor: pointer;
+    box-sizing: border-box;
+    overflow: hidden;
+
     label {
         cursor: inherit;
-        display: block;
+        display: flex;
+        align-items: center;
         width: 100%;
         height: 100%;
     }
@@ -99,16 +105,20 @@
 }
 
 .choose-item input[type="checkbox"] {
-    vertical-align: bottom;
     height: 100%;
     display: inline-block;
     cursor: inherit;
+    margin-left: 10px;
 }
 
 .choose-item input[type="checkbox"]+.desc {
     display: inline-block;
     height: 100%;
     cursor: inherit;
+    margin-left: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 input:checked+.desc {
@@ -165,6 +175,7 @@ input:checked+.desc {
     opacity: 0;
     transition: all 0.3s;
     pointer-events: none;
+    filter: drop-shadow(0px 0px 10px #3c3c3c);
 }
 
 .animal-desc.up {
@@ -232,9 +243,11 @@ input:checked+.desc {
 .footer {
     text-align: center;
     padding: 10px 0;
+
     a {
         color: #409eff;
     }
+
     .version-desc {
         font-size: 12px;
         margin-top: 10px;
@@ -250,19 +263,24 @@ input:checked+.desc {
         height: 95px;
         cursor: default;
     }
+
     .result-item.hover {
         .animal-desc {
             opacity: 1;
         }
+
         .animal-desc.up {
             bottom: 110px;
         }
+
         .animal-desc.down {
             top: 110px;
         }
     }
+
     .choose-item {
-        font-size: 14px;
+        --n: 3;
+        font-size: 12px;
         height: 25px;
         line-height: 25px;
         cursor: default;
@@ -278,20 +296,25 @@ input:checked+.desc {
         --w: 140px;
         height: 178px;
     }
+
     .choose-item {
+        --n: 6;
         font-size: 14px;
         height: 25px;
         line-height: 25px;
     }
+
     .result-item.hover {
         .animal-desc {
             opacity: 1;
         }
+
         .animal-desc.up {
-            bottom: 185px;
+            bottom: 190px;
         }
+
         .animal-desc.down {
-            top: 185px;
+            top: 190px;
         }
     }
 }
@@ -309,15 +332,19 @@ input:checked+.desc {
         .animal-desc {
             opacity: 1;
         }
+
         .animal-desc.up {
             bottom: 190px;
         }
+
         .animal-desc.down {
             top: 190px;
         }
     }
+
     .choose-item {
-        font-size: 16px;
+        --n: 11;
+        font-size: 14px;
         height: 30px;
         line-height: 30px;
     }
