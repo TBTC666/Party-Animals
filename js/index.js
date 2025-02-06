@@ -3,6 +3,113 @@ document.addEventListener('contextmenu', function (e) {
     e.preventDefault();
 });
 
+function getItemEventListenerFn() {
+    if (isMobile()) {
+        return (item) => {
+            let xRange = [-5, 5];
+            let yRange = [-5, 5];
+            let timer = null;
+            let startX, startY;
+            let descDiv = item.querySelector('.animal-desc');
+            let descDivHight = descDiv.offsetHeight;
+            item.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                let topDis = item.getBoundingClientRect().top;
+                if (topDis - descDivHight <= 20) {
+                    descDiv.classList.add('down');
+                    descDiv.classList.remove('up');
+                } else {
+                    descDiv.classList.add('up');
+                    descDiv.classList.remove('down');
+                }
+                item.style.setProperty('--t', `0s`);
+                clearTimeout(timer);
+                item.classList.add('hover');
+                item.classList.add('z-index');
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+            });
+            item.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                let ry = -getRotate(yRange, e.touches[0].clientX - startX, item.offsetWidth);
+                let rx = getRotate(xRange, e.touches[0].clientY - startY, item.offsetHeight);
+                item.style.setProperty('--ry', `${ry}deg`);
+                item.style.setProperty('--rx', `${rx}deg`);
+            });
+            item.addEventListener('touchend', (e) => {
+                e.preventDefault()
+                item.style.setProperty('--t', `1s`);
+                item.style.setProperty('--ry', `0deg`);
+                item.style.setProperty('--rx', `0deg`);
+                if (descDiv.classList.contains('down')) {
+                    timer = setTimeout(() => {
+                        item.classList.remove('hover');
+                        item.classList.remove('z-index');
+                    }, 500);
+                } else {
+                    item.classList.remove('z-index');
+                    timer = setTimeout(() => {
+                        item.classList.remove('hover');
+                    }, 500);
+                }
+            });
+        }
+    } else {
+        return (item) => {
+            let xRange = [-10, 10];
+            let yRange = [-10, 10];
+            let timer = null;
+            let descDiv = item.querySelector('.animal-desc');
+            let descDivHight = descDiv.offsetHeight;
+            item.addEventListener('mouseenter', () => {
+                let topDis = item.getBoundingClientRect().top;
+                if (topDis - descDivHight <= 20) {
+                    descDiv.classList.add('down');
+                    descDiv.classList.remove('up');
+                } else {
+                    descDiv.classList.add('up');
+                    descDiv.classList.remove('down');
+                }
+                item.style.setProperty('--t', `0s`);
+                clearTimeout(timer);
+                item.classList.add('z-index');
+                item.classList.add('hover');
+            });
+            item.addEventListener('mouseleave', () => {
+                item.style.setProperty('--t', `1s`);
+                item.style.setProperty('--ry', `0deg`);
+                item.style.setProperty('--rx', `0deg`);
+                if (descDiv.classList.contains('down')) {
+                    timer = setTimeout(() => {
+                        item.classList.remove('hover');
+                        item.classList.remove('z-index');
+                    }, 500);
+                } else {
+                    item.classList.remove('z-index');
+                    timer = setTimeout(() => {
+                        item.classList.remove('hover');
+                    }, 500);
+                }
+            });
+            item.addEventListener('mousemove', (e) => {
+                let { offsetX, offsetY } = e;
+                let { offsetWidth, offsetHeight } = item;
+                let ry = -getRotate(yRange, offsetX, offsetWidth);
+                let rx = getRotate(xRange, offsetY, offsetHeight);
+                item.style.setProperty('--ry', `${ry}deg`);
+                item.style.setProperty('--rx', `${rx}deg`);
+            });
+        }
+    }
+}
+
+var addResultItemEvent = getItemEventListenerFn();
+
+window.addEventListener('resize', () => {
+    addResultItemEvent = getItemEventListenerFn();
+    addResultCardEvent();
+});
+
 //传入一个动物对象，返回这个动物的描述HTML
 function getAnimalDescHtml(animalObj, selectedTypes) {
     let type = animalObj.type;
@@ -102,7 +209,7 @@ function showSelectAnimals(types, animals) {
     dom.resultContainer.innerHTML = '';
     let html = '';
     for (let i = 0; i < animals.length; i++) {
-        html += `<div class="result-item ${animals[i].value}">
+        html += `<div class="result-item ${animals[i].value}";">
                     <div class="animal-desc">${getAnimalDescHtml(animals[i], types)}</div>
                 </div>`;
     }
@@ -144,77 +251,18 @@ dom.checkboxes.forEach((checkbox) => {
     });
 });
 
-
-
 function getRotate(range, value, max) {
     return value / max * (range[1] - range[0]) + range[0];
 }
 
 //检测是否为移动端
-function isMove() {
+function isMobile() {
     return window.matchMedia("(max-width: 768px)").matches;
 };
-
-window.addEventListener('resize', () => {
-    addResultCardEvent();
- });
 
 function addResultCardEvent() {
     dom.resultItem = document.querySelectorAll('.result-item');
     dom.resultItem.forEach((item) => {
-        if (!isMove()) {
-            let xRange = [-10, 10];
-            let yRange = [-10, 10];
-            let timer = null;
-            item.addEventListener('mouseenter', () => {
-                item.style.setProperty('--t', `0s`);
-                clearTimeout(timer);
-                item.classList.add('hover');
-            });
-            item.addEventListener('mouseleave', () => {
-                item.style.setProperty('--t', `1s`);
-                item.style.setProperty('--ry', `0deg`);
-                item.style.setProperty('--rx', `0deg`);
-                timer = setTimeout(() => {
-                    item.classList.remove('hover');
-                }, 500);
-            });
-            item.addEventListener('mousemove', (e) => {
-                let { offsetX, offsetY } = e;
-                let { offsetWidth, offsetHeight } = item;
-                let ry = -getRotate(yRange, offsetX, offsetWidth);
-                let rx = getRotate(xRange, offsetY, offsetHeight);
-                item.style.setProperty('--ry', `${ry}deg`);
-                item.style.setProperty('--rx', `${rx}deg`);
-            });
-            
-        } else {
-            let xRange = [-5, 5];
-            let yRange = [-5, 5];
-            let timer = null;
-            let startX, startY;
-            item.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                item.style.setProperty('--t', `0s`);
-                clearTimeout(timer);
-                item.classList.add('hover');
-                startX = e.touches[0].clientX;
-                startY = e.touches[0].clientY;
-            });
-            item.addEventListener('touchmove', (e) => {
-                let ry = -getRotate(yRange, e.touches[0].clientX - startX, item.offsetWidth);
-                let rx = getRotate(xRange, e.touches[0].clientY - startY, item.offsetHeight);
-                item.style.setProperty('--ry', `${ry}deg`);
-                item.style.setProperty('--rx', `${rx}deg`);
-            });
-            item.addEventListener('touchend', () => {
-                item.style.setProperty('--t', `1s`);
-                item.style.setProperty('--ry', `0deg`);
-                item.style.setProperty('--rx', `0deg`);
-                timer = setTimeout(() => {
-                    item.classList.remove('hover');
-                }, 500);
-            });
-        }
+        addResultItemEvent(item);
     });
 };
