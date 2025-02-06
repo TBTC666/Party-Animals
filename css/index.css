@@ -299,6 +299,7 @@ input:checked+.desc {
             width: 100%;
             max-width: min(974px, 100vw);
             margin: 0 auto;
+            pointer-events: none;
         }
 
         .wall {
