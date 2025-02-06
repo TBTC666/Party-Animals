@@ -31,7 +31,6 @@ function getItemEventListenerFn() {
                 clearTimeout(timer);
                 item.classList.add('hover');
                 item.style.setProperty('--z', `${z++}`);
-                changedZDom.add(item);
                 startX = e.touches[0].clientX;
                 startY = e.touches[0].clientY;
                 clearTimeout(resetZTimer);
