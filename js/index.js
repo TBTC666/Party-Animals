@@ -6,7 +6,7 @@ document.addEventListener('contextmenu', function (e) {
 let z = 1;
 let resetZTimer = setTimeout(() => {
     z = 1;
-}, 5000);
+}, 2000);
 
 function getItemEventListenerFn() {
     if (isMobile()) {
@@ -39,7 +39,7 @@ function getItemEventListenerFn() {
                     dom.resultItem.forEach((d) => {
                         d.style.setProperty('--z', `0`);
                     });
-                }, 5000);
+                }, 2000);
             });
             item.addEventListener('touchmove', (e) => {
                 e.preventDefault();
@@ -85,7 +85,7 @@ function getItemEventListenerFn() {
                     dom.resultItem.forEach((d) => {
                         d.style.setProperty('--z', `0`);
                     });
-                }, 5000);
+                }, 2000);
             });
             item.addEventListener('mouseleave', () => {
                 item.style.setProperty('--t', `1s`);
