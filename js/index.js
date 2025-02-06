@@ -33,7 +33,14 @@ function getItemEventListenerFn() {
                 item.style.setProperty('--z', `${z++}`);
                 startX = e.touches[0].clientX;
                 startY = e.touches[0].clientY;
-                
+                clearTimeout(resetZTimer);
+                resetZTimer = setTimeout(() => {
+                    z = 1;
+                    dom.resultItem.forEach((d) => {
+                        d.style.setProperty('--z', `0`);
+                    });
+                    item.style.setProperty('--z', `1`);
+                }, 2000);
             });
             item.addEventListener('touchmove', (e) => {
                 e.preventDefault();
@@ -50,13 +57,7 @@ function getItemEventListenerFn() {
                 timer = setTimeout(() => {
                     item.classList.remove('hover');
                 }, 500);
-                clearTimeout(resetZTimer);
-                resetZTimer = setTimeout(() => {
-                    z = 1;
-                    dom.resultItem.forEach((d) => {
-                        d.style.setProperty('--z', `0`);
-                    });
-                }, 2000);
+                
             });
         }
     } else {
@@ -79,7 +80,14 @@ function getItemEventListenerFn() {
                 clearTimeout(timer);
                 item.style.setProperty('--z', `${z++}`);
                 item.classList.add('hover');
-                
+                clearTimeout(resetZTimer);
+                resetZTimer = setTimeout(() => {
+                    z = 1;
+                    dom.resultItem.forEach((d) => {
+                        d.style.setProperty('--z', `0`);
+                    });
+                    item.style.setProperty('--z', `1`);
+                }, 2000);
             });
             item.addEventListener('mouseleave', () => {
                 item.style.setProperty('--t', `1s`);
@@ -88,14 +96,6 @@ function getItemEventListenerFn() {
                 timer = setTimeout(() => {
                     item.classList.remove('hover');
                 }, 500);
-                clearTimeout(resetZTimer);
-                resetZTimer = setTimeout(() => {
-                    z = 1;
-                    dom.resultItem.forEach((d) => {
-                        d.style.setProperty('--z', `0`);
-                    });
-                }, 2000);
-
             });
             item.addEventListener('mousemove', (e) => {
                 let { offsetX, offsetY } = e;
