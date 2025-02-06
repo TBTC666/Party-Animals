@@ -3,6 +3,11 @@ document.addEventListener('contextmenu', function (e) {
     e.preventDefault();
 });
 
+let z = 1;
+let resetZTimer = setTimeout(() => {
+    z = 1;
+}, 5000);
+
 function getItemEventListenerFn() {
     if (isMobile()) {
         return (item) => {
@@ -25,9 +30,17 @@ function getItemEventListenerFn() {
                 item.style.setProperty('--t', `0s`);
                 clearTimeout(timer);
                 item.classList.add('hover');
-                item.classList.add('z-index');
+                item.style.setProperty('--z', `${z++}`);
+                changedZDom.add(item);
                 startX = e.touches[0].clientX;
                 startY = e.touches[0].clientY;
+                clearTimeout(resetZTimer);
+                resetZTimer = setTimeout(() => {
+                    z = 1;
+                    dom.resultItem.forEach((d) => {
+                        d.style.setProperty('--z', `0`);
+                    });
+                }, 5000);
             });
             item.addEventListener('touchmove', (e) => {
                 e.preventDefault();
@@ -41,17 +54,10 @@ function getItemEventListenerFn() {
                 item.style.setProperty('--t', `1s`);
                 item.style.setProperty('--ry', `0deg`);
                 item.style.setProperty('--rx', `0deg`);
-                if (descDiv.classList.contains('down')) {
-                    timer = setTimeout(() => {
-                        item.classList.remove('hover');
-                        item.classList.remove('z-index');
-                    }, 500);
-                } else {
-                    item.classList.remove('z-index');
-                    timer = setTimeout(() => {
-                        item.classList.remove('hover');
-                    }, 500);
-                }
+                timer = setTimeout(() => {
+                    item.classList.remove('hover');
+                }, 500);
+
             });
         }
     } else {
@@ -72,24 +78,24 @@ function getItemEventListenerFn() {
                 }
                 item.style.setProperty('--t', `0s`);
                 clearTimeout(timer);
-                item.classList.add('z-index');
+                item.style.setProperty('--z', `${z++}`);
                 item.classList.add('hover');
+                clearTimeout(resetZTimer);
+                resetZTimer = setTimeout(() => {
+                    z = 1;
+                    dom.resultItem.forEach((d) => {
+                        d.style.setProperty('--z', `0`);
+                    });
+                }, 5000);
             });
             item.addEventListener('mouseleave', () => {
                 item.style.setProperty('--t', `1s`);
                 item.style.setProperty('--ry', `0deg`);
                 item.style.setProperty('--rx', `0deg`);
-                if (descDiv.classList.contains('down')) {
-                    timer = setTimeout(() => {
-                        item.classList.remove('hover');
-                        item.classList.remove('z-index');
-                    }, 500);
-                } else {
-                    item.classList.remove('z-index');
-                    timer = setTimeout(() => {
-                        item.classList.remove('hover');
-                    }, 500);
-                }
+                timer = setTimeout(() => {
+                    item.classList.remove('hover');
+                }, 500);
+
             });
             item.addEventListener('mousemove', (e) => {
                 let { offsetX, offsetY } = e;
@@ -197,17 +203,18 @@ function showSelectAnimals(types, animals) {
     let selectedTypeName = types.map((item) => {
         return item.typeName;
     });
+    let html = '';
     dom.resultText.innerText = `${selectedTypeName.join('、')} 共有${animals.length}个`;
     if (animals.length === 0) {
         if (types.length === dom.checkboxes.length) {
-            dom.resultContainer.innerHTML = '<div class="no-result">再玩就玩坏了w(ﾟДﾟ)w</div>';
+            html = '<div class="no-result">再玩就玩坏了w(ﾟДﾟ)w</div>';
         } else {
-            dom.resultContainer.innerHTML = '<div class="no-result"">没有动物符合条件！！！</div>';
+            html = '<div class="no-result"">没有动物符合条件！！！</div>';
         }
+        html += '<div class="no-find-container"><img src="img/no-find.webp"></div>';
+        dom.resultContainer.innerHTML = html;
         return;
     }
-    dom.resultContainer.innerHTML = '';
-    let html = '';
     for (let i = 0; i < animals.length; i++) {
         html += `<div class="result-item ${animals[i].value}";">
                     <div class="animal-desc">${getAnimalDescHtml(animals[i], types)}</div>
