@@ -39,7 +39,6 @@ function getItemEventListenerFn() {
                     dom.resultItem.forEach((d) => {
                         d.style.setProperty('--z', `0`);
                     });
-                    item.style.setProperty('--z', `1`);
                 }, 2000);
             });
             item.addEventListener('touchmove', (e) => {
@@ -57,7 +56,7 @@ function getItemEventListenerFn() {
                 timer = setTimeout(() => {
                     item.classList.remove('hover');
                 }, 500);
-                
+
             });
         }
     } else {
@@ -86,7 +85,6 @@ function getItemEventListenerFn() {
                     dom.resultItem.forEach((d) => {
                         d.style.setProperty('--z', `0`);
                     });
-                    item.style.setProperty('--z', `1`);
                 }, 2000);
             });
             item.addEventListener('mouseleave', () => {
@@ -96,6 +94,7 @@ function getItemEventListenerFn() {
                 timer = setTimeout(() => {
                     item.classList.remove('hover');
                 }, 500);
+
             });
             item.addEventListener('mousemove', (e) => {
                 let { offsetX, offsetY } = e;
@@ -149,11 +148,16 @@ function getAnimalDescHtml(animalObj, selectedTypes) {
 var dom = {
     resultText: document.querySelector('.result-area .text'),
     resultContainer: document.querySelector('.result-area .result-container'),
-    checkboxes: null,//document.querySelectorAll('input[type="checkbox"]')
+    checkboxes: null,//document.querySelectorAll('.choose-area input[type="checkbox"]'),
     chooseContainer: document.querySelector('.choose-area'),
     fixText: document.querySelector('.result-area .text'),
-    resultItem: null,//document.querySelectorAll('.result-item')
+    headerDiv: document.querySelector('#app>.header'),
+    resultItem: null,//document.querySelectorAll('.result-item'),
+    settingSwitchBtn: null,//document.querySelectorAll('.setting-btn'),
+    settingBtn: document.querySelector('#app .header .more .title'),
+    settingContainer: document.querySelector('#app .header .more .setting-container'),
 };
+
 
 function upDateChooseArea() {
     dom.chooseContainer.innerHTML = ''
@@ -166,7 +170,7 @@ function upDateChooseArea() {
             </div>`;
         dom.chooseContainer.insertAdjacentHTML('beforeend', html);
     }
-    dom.checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    dom.checkboxes = document.querySelectorAll('.choose-area input[type="checkbox"]');
 };
 
 upDateChooseArea();
@@ -273,3 +277,80 @@ function addResultCardEvent() {
         addResultItemEvent(item);
     });
 };
+
+function addSettingBtn() {
+    let html = `<div class="more">
+                <span class="title">设置</span>
+                <div class="setting-container">
+                    <div class="setting-item">具体实现明天再说，先睡觉了w(ﾟДﾟ)w
+                        <div class="desc">
+                            <p class="title">背景音乐</p>
+                            <p class="choose-value">已静音</p>
+                        </div>
+                        <div class="switch-container">
+                            <input id="check" class="check" type="checkbox" />
+                            <label class="switch" for="check">
+                                <svg viewBox="0 0 212.4992 84.4688" overflow="visible">
+                                    <path pathLength="360" fill="none" stroke="currentColor"
+                                        d="M 42.2496 0 A 42.24 42.24 90 0 0 0 42.2496 A 42.24 42.24 90 0 0 42.2496 84.4688 A 42.24 42.24 90 0 0 84.4992 42.2496 A 42.24 42.24 90 0 0 42.2496 0 A 42.24 42.24 90 0 0 0 42.2496 A 42.24 42.24 90 0 0 42.2496 84.4688 L 170.2496 84.4688 A 42.24 42.24 90 0 0 212.4992 42.2496 A 42.24 42.24 90 0 0 170.2496 0 A 42.24 42.24 90 0 0 128 42.2496 A 42.24 42.24 90 0 0 170.2496 84.4688 A 42.24 42.24 90 0 0 212.4992 42.2496 A 42.24 42.24 90 0 0 170.2496 0 L 42.2496 0">
+                                    </path>
+                                </svg>
+                            </label>
+                        </div>
+                    </div>
+                `;
+    if (isMobile()) {
+        html += ` <div class="setting-item">
+                        <div class="desc">
+                            <p class="title">触摸并滑动小动物卡片时的逻辑</p>
+                            <p class="choose-value">将会优先滑动小动物卡片</p>
+                            <p>仅移动端生效</p>
+                        </div>
+                        <div class="switch-container"><input id="check2" class="check" type="checkbox" />
+                            <label class="switch" for="check2">
+                                <svg viewBox="0 0 212.4992 84.4688" overflow="visible">
+                                    <path pathLength="360" fill="none" stroke="currentColor"
+                                        d="M 42.2496 0 A 42.24 42.24 90 0 0 0 42.2496 A 42.24 42.24 90 0 0 42.2496 84.4688 A 42.24 42.24 90 0 0 84.4992 42.2496 A 42.24 42.24 90 0 0 42.2496 0 A 42.24 42.24 90 0 0 0 42.2496 A 42.24 42.24 90 0 0 42.2496 84.4688 L 170.2496 84.4688 A 42.24 42.24 90 0 0 212.4992 42.2496 A 42.24 42.24 90 0 0 170.2496 0 A 42.24 42.24 90 0 0 128 42.2496 A 42.24 42.24 90 0 0 170.2496 84.4688 A 42.24 42.24 90 0 0 212.4992 42.2496 A 42.24 42.24 90 0 0 170.2496 0 L 42.2496 0">
+                                    </path>
+                                </svg>
+                            </label>
+                        </div>
+                    </div>`;
+    }
+    html += `</div>
+            </div>`;
+    dom.headerDiv.insertAdjacentHTML('beforeend', html);
+    dom.settingSwitchBtn = document.querySelectorAll('.switch-container input[type="checkbox"]');
+    let music = dom.settingSwitchBtn[0];
+    let musicDesc = music.parentElement.parentElement.querySelector('.choose-value');
+    music.addEventListener('change', () => {
+        if (music.checked) {
+            musicDesc.innerText = '正在播放';
+        } else {
+            musicDesc.innerText = '已静音';
+        }
+    });
+    if (isMobile()) {
+        let card = dom.settingSwitchBtn[1];
+        let cardDesc = card.parentElement.parentElement.querySelector('.choose-value');
+        card.addEventListener('change', () => {
+            if (card.checked) {
+                cardDesc.innerText = '将会优先滑动面页';
+            } else {
+                cardDesc.innerText = '将会优先滑动小动物卡片';
+            }
+        });
+    }
+    dom.settingBtn = document.querySelector('#app .header .more .title');
+    dom.settingContainer = document.querySelector('#app .header .more .setting-container');
+}
+
+addSettingBtn();
+
+dom.settingBtn.addEventListener('click', () => {
+    if(!dom.settingContainer.classList.contains('show')){
+        dom.settingContainer.classList.add('show');
+    }else{
+        dom.settingContainer.classList.remove('show');
+    }
+});
