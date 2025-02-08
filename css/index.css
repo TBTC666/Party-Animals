@@ -41,7 +41,6 @@
 
     .more {
         font-size: 12px;
-        cursor: pointer;
         width: 30px;
         height: 30px;
         line-height: 30px;
@@ -52,30 +51,34 @@
         border: 1px solid #ccc;
         border-radius: 50%;
 
-        .title{
+        >.title {
             color: #ccc;
+
+            &:active {
+                color: #576bde;
+            }
         }
 
         .setting-container {
             position: absolute;
-            top: 40px;
+            top: -200px;
             right: 10px;
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.8);
             border: 1px solid #ccc;
             border-radius: 5px;
             padding: 5px;
-            display: none;
             z-index: 1;
-            flex-direction: column;
             width: 260px;
+            transition: all 0.3s;
+            opacity: 0;
 
             &.show {
-                display: flex;
+                top: 40px;
+                opacity: 1;
             }
 
             .setting-item {
                 padding: 15px 5px;
-                cursor: pointer;
                 display: flex;
                 align-items: center;
 
@@ -88,6 +91,12 @@
                     .title {
                         color: #008c8c;
                     }
+
+                    &.onlyMobile::after {
+                        content: "*仅移动端生效";
+                        font-size: 10px;
+                        color: #e17474;
+                    }
                 }
 
                 .switch-container {
@@ -99,7 +108,6 @@
                 /* The switch - the box around the slider */
                 .switch {
                     --a: 0.5s ease-out;
-                    cursor: pointer;
                     position: relative;
                     display: inline-flex;
                     height: 1em;
@@ -416,11 +424,51 @@ input:checked+.desc {
     }
 }
 
-/* 小屏幕，手机 */
-@media screen and (max-width: 768px) {
+
+/* 小手机 */
+@media screen and (max-width: 400px) {
     .result-item {
         --n: 3;
-        --space: calc(100% / var(--n) - var(--w));
+        --w: 75px;
+        height: 95px;
+        cursor: default;
+        
+    }
+
+    .result-item.hover {
+        .animal-desc {
+            opacity: 1;
+        }
+
+        .animal-desc.up {
+            bottom: 110px;
+        }
+
+        .animal-desc.down {
+            top: 110px;
+        }
+    }
+
+    .choose-item {
+        --n: 3;
+        font-size: 12px;
+        height: 25px;
+        line-height: 25px;
+        cursor: default;
+         input[type="checkbox"] {
+                display: none;
+                +.desc{
+                    margin-left: 10px;
+                }
+            }
+            
+    }
+}
+
+/* 小屏幕，手机 */
+@media screen and (max-width: 768px) and (min-width:400px) {
+    .result-item {
+        --n: 3;
         --w: 75px;
         height: 95px;
         cursor: default;
@@ -454,7 +502,6 @@ input:checked+.desc {
 @media screen and (min-width: 769px) and (max-width: 1024px) {
     .result-item {
         --n: 3;
-        --space: calc(100% / var(--n) - var(--w));
         --w: 140px;
         height: 178px;
     }
@@ -485,7 +532,6 @@ input:checked+.desc {
 @media screen and (min-width: 1025px) {
     .result-item {
         --n: 6;
-        --space: calc(100% / var(--n) - var(--w));
         --w: 140px;
         height: 178px;
     }

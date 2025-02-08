@@ -1,7 +1,17 @@
 // 作者:HandsomeTB
+
 document.addEventListener('contextmenu', function (e) {
     e.preventDefault();
 });
+
+function isMobile() {
+    return window.matchMedia("(max-width: 768px)").matches;
+}
+
+let currentMobile = isMobile();
+let prevent = true;
+let bgMusicNum = 3;
+let currentPlayIndex = Math.floor(Math.random() * bgMusicNum + 1);
 
 let z = 1;
 let resetZTimer = setTimeout(() => {
@@ -18,7 +28,9 @@ function getItemEventListenerFn() {
             let descDiv = item.querySelector('.animal-desc');
             let descDivHight = descDiv.offsetHeight;
             item.addEventListener('touchstart', (e) => {
-                e.preventDefault();
+                if (prevent) {
+                    e.preventDefault();
+                }
                 let topDis = item.getBoundingClientRect().top;
                 if (topDis - descDivHight <= 20) {
                     descDiv.classList.add('down');
@@ -42,14 +54,18 @@ function getItemEventListenerFn() {
                 }, 2000);
             });
             item.addEventListener('touchmove', (e) => {
-                e.preventDefault();
+                if (prevent) {
+                    e.preventDefault();
+                }
                 let ry = -getRotate(yRange, e.touches[0].clientX - startX, item.offsetWidth);
                 let rx = getRotate(xRange, e.touches[0].clientY - startY, item.offsetHeight);
                 item.style.setProperty('--ry', `${ry}deg`);
                 item.style.setProperty('--rx', `${rx}deg`);
             });
             item.addEventListener('touchend', (e) => {
-                e.preventDefault()
+                if (prevent) {
+                    e.preventDefault();
+                }
                 item.style.setProperty('--t', `1s`);
                 item.style.setProperty('--ry', `0deg`);
                 item.style.setProperty('--rx', `0deg`);
@@ -111,8 +127,12 @@ function getItemEventListenerFn() {
 var addResultItemEvent = getItemEventListenerFn();
 
 window.addEventListener('resize', () => {
-    addResultItemEvent = getItemEventListenerFn();
-    addResultCardEvent();
+    if (isMobile() != currentMobile) {
+        addResultItemEvent = getItemEventListenerFn();
+        addResultCardEvent();
+        addSettingBtn();
+        currentMobile = isMobile();
+    }
 });
 
 //传入一个动物对象，返回这个动物的描述HTML
@@ -151,13 +171,27 @@ var dom = {
     checkboxes: null,//document.querySelectorAll('.choose-area input[type="checkbox"]'),
     chooseContainer: document.querySelector('.choose-area'),
     fixText: document.querySelector('.result-area .text'),
-    headerDiv: document.querySelector('#app>.header'),
+    settingDiv: document.querySelector('#app>.header .more'),
     resultItem: null,//document.querySelectorAll('.result-item'),
     settingSwitchBtn: null,//document.querySelectorAll('.setting-btn'),
-    settingBtn: document.querySelector('#app .header .more .title'),
+    settingBtn: null,//document.querySelector('#app .header .more .title'),
     settingContainer: document.querySelector('#app .header .more .setting-container'),
+    bgMusic : document.querySelector('#app #bg-music-audio')
 };
 
+function playBgMusic() {
+    dom.bgMusic.src = `./music/bg-music-${currentPlayIndex}.ogg`;
+    dom.bgMusic.play();
+}
+playBgMusic();
+
+dom.bgMusic.addEventListener('ended', () => {
+    currentPlayIndex++;
+    if (currentPlayIndex > bgMusicNum) {
+        currentPlayIndex = 1;
+    }
+    playBgMusic();
+})
 
 function upDateChooseArea() {
     dom.chooseContainer.innerHTML = ''
@@ -188,7 +222,6 @@ function showAllAnimals() {
         });
         return acc;
     }, []);
-
     dom.resultText.innerText = `所有动物 共有${allAnimalsObj.length}个`;
     dom.resultContainer.innerHTML = '';
     let html = '';
@@ -266,11 +299,6 @@ function getRotate(range, value, max) {
     return value / max * (range[1] - range[0]) + range[0];
 }
 
-//检测是否为移动端
-function isMobile() {
-    return window.matchMedia("(max-width: 768px)").matches;
-};
-
 function addResultCardEvent() {
     dom.resultItem = document.querySelectorAll('.result-item');
     dom.resultItem.forEach((item) => {
@@ -279,13 +307,12 @@ function addResultCardEvent() {
 };
 
 function addSettingBtn() {
-    let html = `<div class="more">
-                <span class="title">设置</span>
+    let html = `<span class="title">设置</span>
                 <div class="setting-container">
-                    <div class="setting-item">具体实现明天再说，先睡觉了w(ﾟДﾟ)w
+                    <div class="setting-item">
                         <div class="desc">
                             <p class="title">背景音乐</p>
-                            <p class="choose-value">已静音</p>
+                            <p class="choose-value">默认静音</p>
                         </div>
                         <div class="switch-container">
                             <input id="check" class="check" type="checkbox" />
@@ -301,10 +328,9 @@ function addSettingBtn() {
                 `;
     if (isMobile()) {
         html += ` <div class="setting-item">
-                        <div class="desc">
-                            <p class="title">触摸并滑动小动物卡片时的逻辑</p>
-                            <p class="choose-value">将会优先滑动小动物卡片</p>
-                            <p>仅移动端生效</p>
+                        <div class="desc onlyMobile">
+                            <p class="title">触摸并滑动小动物时的处理逻辑</p>
+                            <p class="choose-value">默认将会优先滑动小动物卡片</p>
                         </div>
                         <div class="switch-container"><input id="check2" class="check" type="checkbox" />
                             <label class="switch" for="check2">
@@ -318,8 +344,8 @@ function addSettingBtn() {
                     </div>`;
     }
     html += `</div>
-            </div>`;
-    dom.headerDiv.insertAdjacentHTML('beforeend', html);
+            `;
+    dom.settingDiv.innerHTML = html;
     dom.settingSwitchBtn = document.querySelectorAll('.switch-container input[type="checkbox"]');
     let music = dom.settingSwitchBtn[0];
     let musicDesc = music.parentElement.parentElement.querySelector('.choose-value');
@@ -329,6 +355,7 @@ function addSettingBtn() {
         } else {
             musicDesc.innerText = '已静音';
         }
+        dom.bgMusic.muted = !dom.bgMusic.muted;
     });
     if (isMobile()) {
         let card = dom.settingSwitchBtn[1];
@@ -336,21 +363,29 @@ function addSettingBtn() {
         card.addEventListener('change', () => {
             if (card.checked) {
                 cardDesc.innerText = '将会优先滑动面页';
+                prevent = false;
             } else {
                 cardDesc.innerText = '将会优先滑动小动物卡片';
+                prevent = true;
             }
         });
     }
     dom.settingBtn = document.querySelector('#app .header .more .title');
     dom.settingContainer = document.querySelector('#app .header .more .setting-container');
+    dom.settingBtn.addEventListener('click', () => {
+        if (!dom.settingContainer.classList.contains('show')) {
+            dom.settingContainer.classList.add('show');
+            window.addEventListener('click', (e) => {
+                if (!dom.settingContainer.contains(e.target) && e.target != dom.settingBtn) {
+                    dom.settingContainer.classList.remove('show');
+                    window.addEventListener('click', null);
+                }
+            });
+        } else {
+            dom.settingContainer.classList.remove('show');
+        }
+    });
 }
 
 addSettingBtn();
 
-dom.settingBtn.addEventListener('click', () => {
-    if(!dom.settingContainer.classList.contains('show')){
-        dom.settingContainer.classList.add('show');
-    }else{
-        dom.settingContainer.classList.remove('show');
-    }
-});
