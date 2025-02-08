@@ -194,7 +194,6 @@ function playBgMusic() {
             errorMessage = error.message;
             addSettingBtn();
         })
-    
 }
 
 playBgMusic();
@@ -323,7 +322,6 @@ function addResultCardEvent() {
 function addSettingBtn() {
 
     if (playSuccess) {
-
         let html = `<span class="title">设置</span>
                 <div class="setting-container">
                     <div class="setting-item">
@@ -447,3 +445,64 @@ function addSettingBtn() {
 }
 
 
+function initSetting() {
+
+    let html = `<span class="title">设置</span>
+                <div class="setting-container"><div class="setting-item">
+                <div class="desc" style="color:red;line-height:16px;width:100%">
+                    <p class="title">背景音乐正在加载，请稍后</p>
+                    <p class="choose-value">若长时间无响应请尝试刷新或更换浏览器</p>
+                </div></div>`
+    if (isMobile()) {
+        html += ` <div class="setting-item">
+                        <div class="desc onlyMobile">
+                            <p class="title">触摸并滑动小动物时的处理逻辑</p>
+                            <p class="choose-value">默认将会优先滑动小动物卡片</p>
+                        </div>
+                        <div class="switch-container"><input id="check2" class="check" type="checkbox" />
+                            <label class="switch" for="check2">
+                                <svg viewBox="0 0 212.4992 84.4688" overflow="visible">
+                                    <path pathLength="360" fill="none" stroke="currentColor"
+                                        d="M 42.2496 0 A 42.24 42.24 90 0 0 0 42.2496 A 42.24 42.24 90 0 0 42.2496 84.4688 A 42.24 42.24 90 0 0 84.4992 42.2496 A 42.24 42.24 90 0 0 42.2496 0 A 42.24 42.24 90 0 0 0 42.2496 A 42.24 42.24 90 0 0 42.2496 84.4688 L 170.2496 84.4688 A 42.24 42.24 90 0 0 212.4992 42.2496 A 42.24 42.24 90 0 0 170.2496 0 A 42.24 42.24 90 0 0 128 42.2496 A 42.24 42.24 90 0 0 170.2496 84.4688 A 42.24 42.24 90 0 0 212.4992 42.2496 A 42.24 42.24 90 0 0 170.2496 0 L 42.2496 0">
+                                    </path>
+                                </svg>
+                            </label>
+                        </div>
+                    </div>`;
+    }
+    html += `</div>`;
+    dom.settingDiv.innerHTML = html;
+    dom.settingSwitchBtn = document.querySelectorAll('.switch-container input[type="checkbox"]');
+    if (isMobile()) {
+        let card = dom.settingSwitchBtn[0];
+        let cardDesc = card.parentElement.parentElement.querySelector('.choose-value');
+        card.addEventListener('change', () => {
+            if (card.checked) {
+                cardDesc.innerText = '将会优先滑动面页';
+                prevent = false;
+            } else {
+                cardDesc.innerText = '将会优先滑动小动物卡片';
+                prevent = true;
+            }
+        });
+    }
+
+
+    dom.settingBtn = document.querySelector('#app .header .more .title');
+    dom.settingContainer = document.querySelector('#app .header .more .setting-container');
+    dom.settingBtn.addEventListener('click', () => {
+        if (!dom.settingContainer.classList.contains('show')) {
+            dom.settingContainer.classList.add('show');
+            window.addEventListener('click', (e) => {
+                if (!dom.settingContainer.contains(e.target) && e.target != dom.settingBtn) {
+                    dom.settingContainer.classList.remove('show');
+                    window.addEventListener('click', null);
+                }
+            });
+        } else {
+            dom.settingContainer.classList.remove('show');
+        }
+    });
+}
+
+initSetting()

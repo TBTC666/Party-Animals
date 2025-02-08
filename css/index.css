@@ -397,14 +397,18 @@ input:checked+.desc {
     }
 
     .more {
-        padding-top: 20px;
+        padding-top: 10px;
         background: #4e443e;
         color: #ccc;
+        .item{
+            padding: 2px 0;
+            font-size: 14px;
+        }
     }
 
     .version-desc {
-        font-size: 12px;
-        padding: 10px 0;
+        font-size: 10px;
+        padding: 5px 0 10px;
     }
 
     .animal-img {
