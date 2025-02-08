@@ -128,8 +128,11 @@ var addResultItemEvent = getItemEventListenerFn();
 
 window.addEventListener('resize', () => {
     if (isMobile() != currentMobile) {
-        if (dom.bgMusic.muted == false) {
+        if (!dom.bgMusic.muted) {
             dom.bgMusic.muted = true;
+        }
+        if (!prevent) {
+            prevent = true;
         }
         addResultItemEvent = getItemEventListenerFn();
         addResultCardEvent();
@@ -320,7 +323,6 @@ function addResultCardEvent() {
 };
 
 function addSettingBtn() {
-
     if (playSuccess) {
         let html = `<span class="title">设置</span>
                 <div class="setting-container">
@@ -376,7 +378,7 @@ function addSettingBtn() {
             let cardDesc = card.parentElement.parentElement.querySelector('.choose-value');
             card.addEventListener('change', () => {
                 if (card.checked) {
-                    cardDesc.innerText = '将会优先滑动面页';
+                    cardDesc.innerText = '将会优先滑动面页，可能会有卡顿';
                     prevent = false;
                 } else {
                     cardDesc.innerText = '将会优先滑动小动物卡片';
@@ -417,7 +419,7 @@ function addSettingBtn() {
             let cardDesc = card.parentElement.parentElement.querySelector('.choose-value');
             card.addEventListener('change', () => {
                 if (card.checked) {
-                    cardDesc.innerText = '将会优先滑动面页';
+                    cardDesc.innerText = '将会优先滑动面页，可能会有卡顿';
                     prevent = false;
                 } else {
                     cardDesc.innerText = '将会优先滑动小动物卡片';
@@ -478,7 +480,7 @@ function initSetting() {
         let cardDesc = card.parentElement.parentElement.querySelector('.choose-value');
         card.addEventListener('change', () => {
             if (card.checked) {
-                cardDesc.innerText = '将会优先滑动面页';
+                cardDesc.innerText = '将会优先滑动面页，可能会有卡顿';
                 prevent = false;
             } else {
                 cardDesc.innerText = '将会优先滑动小动物卡片';
