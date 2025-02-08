@@ -224,7 +224,7 @@ function playBgMusic() {
         })
 }
 
-playBgMusic();
+
 
 dom.bgMusic.addEventListener('ended', () => {
     currentPlayIndex++;
@@ -546,4 +546,5 @@ function initSetting() {
     });
 }
 
-initSetting()
+initSetting();
+playBgMusic();
