@@ -12,7 +12,7 @@ let currentMobile = isMobile();
 let prevent = true;
 let bgMusicNum = 3;
 let currentPlayIndex = Math.floor(Math.random() * bgMusicNum + 1);
-
+let playSuccess = null, errorName = null, errorMessage=null;
 let z = 1;
 let resetZTimer = setTimeout(() => {
     z = 1;
@@ -128,6 +128,9 @@ var addResultItemEvent = getItemEventListenerFn();
 
 window.addEventListener('resize', () => {
     if (isMobile() != currentMobile) {
+        if (dom.bgMusic.muted == false) {
+            dom.bgMusic.muted = true;
+        }
         addResultItemEvent = getItemEventListenerFn();
         addResultCardEvent();
         addSettingBtn();
@@ -176,13 +179,24 @@ var dom = {
     settingSwitchBtn: null,//document.querySelectorAll('.setting-btn'),
     settingBtn: null,//document.querySelector('#app .header .more .title'),
     settingContainer: document.querySelector('#app .header .more .setting-container'),
-    bgMusic : document.querySelector('#app #bg-music-audio')
+    bgMusic: document.querySelector('#app #bg-music-audio')
 };
 
 function playBgMusic() {
     dom.bgMusic.src = `./music/bg-music-${currentPlayIndex}.ogg`;
-    dom.bgMusic.play();
+    dom.bgMusic.play().then(() => {
+        playSuccess = true;
+        addSettingBtn();
+    })
+        .catch(error => {
+            playSuccess = false;
+            errorName = error.name;
+            errorMessage = error.message;
+            addSettingBtn();
+        })
+    
 }
+
 playBgMusic();
 
 dom.bgMusic.addEventListener('ended', () => {
@@ -307,7 +321,10 @@ function addResultCardEvent() {
 };
 
 function addSettingBtn() {
-    let html = `<span class="title">设置</span>
+
+    if (playSuccess) {
+
+        let html = `<span class="title">设置</span>
                 <div class="setting-container">
                     <div class="setting-item">
                         <div class="desc">
@@ -326,8 +343,8 @@ function addSettingBtn() {
                         </div>
                     </div>
                 `;
-    if (isMobile()) {
-        html += ` <div class="setting-item">
+        if (isMobile()) {
+            html += ` <div class="setting-item">
                         <div class="desc onlyMobile">
                             <p class="title">触摸并滑动小动物时的处理逻辑</p>
                             <p class="choose-value">默认将会优先滑动小动物卡片</p>
@@ -342,34 +359,76 @@ function addSettingBtn() {
                             </label>
                         </div>
                     </div>`;
-    }
-    html += `</div>
-            `;
-    dom.settingDiv.innerHTML = html;
-    dom.settingSwitchBtn = document.querySelectorAll('.switch-container input[type="checkbox"]');
-    let music = dom.settingSwitchBtn[0];
-    let musicDesc = music.parentElement.parentElement.querySelector('.choose-value');
-    music.addEventListener('change', () => {
-        if (music.checked) {
-            musicDesc.innerText = '正在播放';
-        } else {
-            musicDesc.innerText = '已静音';
         }
-        dom.bgMusic.muted = !dom.bgMusic.muted;
-    });
-    if (isMobile()) {
-        let card = dom.settingSwitchBtn[1];
-        let cardDesc = card.parentElement.parentElement.querySelector('.choose-value');
-        card.addEventListener('change', () => {
-            if (card.checked) {
-                cardDesc.innerText = '将会优先滑动面页';
-                prevent = false;
+        html += `</div>`;
+        dom.settingDiv.innerHTML = html;
+        dom.settingSwitchBtn = document.querySelectorAll('.switch-container input[type="checkbox"]');
+        let music = dom.settingSwitchBtn[0];
+        let musicDesc = music.parentElement.parentElement.querySelector('.choose-value');
+        music.addEventListener('change', () => {
+            if (music.checked) {
+                musicDesc.innerText = '正在播放';
             } else {
-                cardDesc.innerText = '将会优先滑动小动物卡片';
-                prevent = true;
+                musicDesc.innerText = '已静音';
             }
+            dom.bgMusic.muted = !dom.bgMusic.muted;
         });
+        if (isMobile()) {
+            let card = dom.settingSwitchBtn[1];
+            let cardDesc = card.parentElement.parentElement.querySelector('.choose-value');
+            card.addEventListener('change', () => {
+                if (card.checked) {
+                    cardDesc.innerText = '将会优先滑动面页';
+                    prevent = false;
+                } else {
+                    cardDesc.innerText = '将会优先滑动小动物卡片';
+                    prevent = true;
+                }
+            });
+        }
+    } else {
+        let html = `<span class="title">设置</span>
+                <div class="setting-container"><div class="setting-item">
+                <div class="desc" style="color:red;line-height:16px;width:100%">
+                    <p class="title">背景音乐播放失败，请尝试刷新或更换浏览器</p>
+                    <p class="choose-value">${errorName}</p>
+                    <p class="choose-value">${errorMessage}</p>
+                </div></div>`
+        if (isMobile()) {
+            html += ` <div class="setting-item">
+                        <div class="desc onlyMobile">
+                            <p class="title">触摸并滑动小动物时的处理逻辑</p>
+                            <p class="choose-value">默认将会优先滑动小动物卡片</p>
+                        </div>
+                        <div class="switch-container"><input id="check2" class="check" type="checkbox" />
+                            <label class="switch" for="check2">
+                                <svg viewBox="0 0 212.4992 84.4688" overflow="visible">
+                                    <path pathLength="360" fill="none" stroke="currentColor"
+                                        d="M 42.2496 0 A 42.24 42.24 90 0 0 0 42.2496 A 42.24 42.24 90 0 0 42.2496 84.4688 A 42.24 42.24 90 0 0 84.4992 42.2496 A 42.24 42.24 90 0 0 42.2496 0 A 42.24 42.24 90 0 0 0 42.2496 A 42.24 42.24 90 0 0 42.2496 84.4688 L 170.2496 84.4688 A 42.24 42.24 90 0 0 212.4992 42.2496 A 42.24 42.24 90 0 0 170.2496 0 A 42.24 42.24 90 0 0 128 42.2496 A 42.24 42.24 90 0 0 170.2496 84.4688 A 42.24 42.24 90 0 0 212.4992 42.2496 A 42.24 42.24 90 0 0 170.2496 0 L 42.2496 0">
+                                    </path>
+                                </svg>
+                            </label>
+                        </div>
+                    </div>`;
+        }
+        html += `</div>`;
+        dom.settingDiv.innerHTML = html;
+        dom.settingSwitchBtn = document.querySelectorAll('.switch-container input[type="checkbox"]');
+        if (isMobile()) {
+            let card = dom.settingSwitchBtn[0];
+            let cardDesc = card.parentElement.parentElement.querySelector('.choose-value');
+            card.addEventListener('change', () => {
+                if (card.checked) {
+                    cardDesc.innerText = '将会优先滑动面页';
+                    prevent = false;
+                } else {
+                    cardDesc.innerText = '将会优先滑动小动物卡片';
+                    prevent = true;
+                }
+            });
+        }
     }
+
     dom.settingBtn = document.querySelector('#app .header .more .title');
     dom.settingContainer = document.querySelector('#app .header .more .setting-container');
     dom.settingBtn.addEventListener('click', () => {
@@ -387,5 +446,4 @@ function addSettingBtn() {
     });
 }
 
-addSettingBtn();
 

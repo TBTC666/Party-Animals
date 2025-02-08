@@ -66,7 +66,7 @@
             background: rgba(255, 255, 255, 0.8);
             border: 1px solid #ccc;
             border-radius: 5px;
-            padding: 5px;
+            padding: 0 5px;
             z-index: 1;
             width: 260px;
             transition: all 0.3s;
@@ -78,9 +78,14 @@
             }
 
             .setting-item {
-                padding: 15px 5px;
+                padding: 10px 5px;
                 display: flex;
                 align-items: center;
+                border-bottom:1px dashed #ccc;
+
+                &:last-child{
+                    border-bottom: none;
+                }
 
                 .desc {
                     margin-left: 5px;
@@ -112,9 +117,9 @@
                     display: inline-flex;
                     height: 1em;
                     border-radius: 2em;
-                    box-shadow: 0 0 0 0.66em #aaa;
+                    box-shadow: 0 0 0 0.66em #aaaaaa8c;
                     aspect-ratio: 212.4992/84.4688;
-                    background-color: #aaa;
+                    background-color: #aaaaaa8c;
                 }
 
                 /* Hide default HTML checkbox */
