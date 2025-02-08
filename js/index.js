@@ -20,60 +20,85 @@ let resetZTimer = setTimeout(() => {
 
 function getItemEventListenerFn() {
     if (isMobile()) {
-        return (item) => {
-            let xRange = [-5, 5];
-            let yRange = [-5, 5];
-            let timer = null;
-            let startX, startY;
-            let descDiv = item.querySelector('.animal-desc');
-            let descDivHight = descDiv.offsetHeight;
-            item.addEventListener('touchstart', (e) => {
-                if (prevent) {
+            return (item) => {
+                let xRange = [-5, 5];
+                let yRange = [-5, 5];
+                let timer = null;
+                let startX, startY;
+                let descDiv = item.querySelector('.animal-desc');
+                let descDivHight = descDiv.offsetHeight;
+                item.addEventListener('touchstart', (e) => {
+                    if (!prevent) {
+                        let topDis = item.getBoundingClientRect().top;
+                        if (topDis - descDivHight <= 20) {
+                            descDiv.classList.add('down');
+                            descDiv.classList.remove('up');
+                        } else {
+                            descDiv.classList.add('up');
+                            descDiv.classList.remove('down');
+                        }
+                        clearTimeout(timer);
+                        item.classList.add('hover');
+                        item.style.setProperty('--z', `${z++}`);
+                        clearTimeout(resetZTimer);
+                        resetZTimer = setTimeout(() => {
+                            z = 1;
+                            dom.resultItem.forEach((d) => {
+                                d.style.setProperty('--z', `0`);
+                            });
+                        }, 2000);
+                        return;
+                    }
                     e.preventDefault();
-                }
-                let topDis = item.getBoundingClientRect().top;
-                if (topDis - descDivHight <= 20) {
-                    descDiv.classList.add('down');
-                    descDiv.classList.remove('up');
-                } else {
-                    descDiv.classList.add('up');
-                    descDiv.classList.remove('down');
-                }
-                item.style.setProperty('--t', `0s`);
-                clearTimeout(timer);
-                item.classList.add('hover');
-                item.style.setProperty('--z', `${z++}`);
-                startX = e.touches[0].clientX;
-                startY = e.touches[0].clientY;
-                clearTimeout(resetZTimer);
-                resetZTimer = setTimeout(() => {
-                    z = 1;
-                    dom.resultItem.forEach((d) => {
-                        d.style.setProperty('--z', `0`);
-                    });
-                }, 2000);
-            });
-            item.addEventListener('touchmove', (e) => {
-                if (prevent) {
+                    let topDis = item.getBoundingClientRect().top;
+                    if (topDis - descDivHight <= 20) {
+                        descDiv.classList.add('down');
+                        descDiv.classList.remove('up');
+                    } else {
+                        descDiv.classList.add('up');
+                        descDiv.classList.remove('down');
+                    }
+                    item.style.setProperty('--t', `0s`);
+                    clearTimeout(timer);
+                    item.classList.add('hover');
+                    item.style.setProperty('--z', `${z++}`);
+                    startX = e.touches[0].clientX;
+                    startY = e.touches[0].clientY;
+                    clearTimeout(resetZTimer);
+                    resetZTimer = setTimeout(() => {
+                        z = 1;
+                        dom.resultItem.forEach((d) => {
+                            d.style.setProperty('--z', `0`);
+                        });
+                    }, 2000);
+                });
+                item.addEventListener('touchmove', (e) => {
+                    if (!prevent) {
+                        return
+                    }
                     e.preventDefault();
-                }
-                let ry = -getRotate(yRange, e.touches[0].clientX - startX, item.offsetWidth);
-                let rx = getRotate(xRange, e.touches[0].clientY - startY, item.offsetHeight);
-                item.style.setProperty('--ry', `${ry}deg`);
-                item.style.setProperty('--rx', `${rx}deg`);
-            });
-            item.addEventListener('touchend', (e) => {
-                if (prevent) {
+                    let ry = -getRotate(yRange, e.touches[0].clientX - startX, item.offsetWidth);
+                    let rx = getRotate(xRange, e.touches[0].clientY - startY, item.offsetHeight);
+                    item.style.setProperty('--ry', `${ry}deg`);
+                    item.style.setProperty('--rx', `${rx}deg`);
+                });
+                item.addEventListener('touchend', (e) => {
+                    if (!prevent) {
+                        timer = setTimeout(() => {
+                            item.classList.remove('hover');
+                        }, 500);
+                        return
+                    }
                     e.preventDefault();
-                }
-                item.style.setProperty('--t', `1s`);
-                item.style.setProperty('--ry', `0deg`);
-                item.style.setProperty('--rx', `0deg`);
-                timer = setTimeout(() => {
-                    item.classList.remove('hover');
-                }, 500);
+                    item.style.setProperty('--t', `1s`);
+                    item.style.setProperty('--ry', `0deg`);
+                    item.style.setProperty('--rx', `0deg`);
+                    timer = setTimeout(() => {
+                        item.classList.remove('hover');
+                    }, 500);
 
-            });
+                });
+            
         }
     } else {
         return (item) => {
@@ -319,6 +344,7 @@ function addResultCardEvent() {
     dom.resultItem = document.querySelectorAll('.result-item');
     dom.resultItem.forEach((item) => {
         addResultItemEvent(item);
+        
     });
 };
 
@@ -378,11 +404,16 @@ function addSettingBtn() {
             let cardDesc = card.parentElement.parentElement.querySelector('.choose-value');
             card.addEventListener('change', () => {
                 if (card.checked) {
-                    cardDesc.innerText = '将会优先滑动面页，可能会有卡顿';
+                    cardDesc.innerText = '将会优先滑动面页并关闭动画效果';
                     prevent = false;
+                    addResultItemEvent = getItemEventListenerFn();
+                    addResultCardEvent();
+                    
                 } else {
                     cardDesc.innerText = '将会优先滑动小动物卡片';
                     prevent = true;
+                    addResultItemEvent = getItemEventListenerFn();
+                    addResultCardEvent();
                 }
             });
         }
@@ -419,11 +450,15 @@ function addSettingBtn() {
             let cardDesc = card.parentElement.parentElement.querySelector('.choose-value');
             card.addEventListener('change', () => {
                 if (card.checked) {
-                    cardDesc.innerText = '将会优先滑动面页，可能会有卡顿';
+                    cardDesc.innerText = '将会优先滑动面页并关闭动画效果';
                     prevent = false;
+                    addResultItemEvent = getItemEventListenerFn();
+                    addResultCardEvent();
                 } else {
                     cardDesc.innerText = '将会优先滑动小动物卡片';
                     prevent = true;
+                    addResultItemEvent = getItemEventListenerFn();
+                    addResultCardEvent();
                 }
             });
         }
@@ -480,11 +515,15 @@ function initSetting() {
         let cardDesc = card.parentElement.parentElement.querySelector('.choose-value');
         card.addEventListener('change', () => {
             if (card.checked) {
-                cardDesc.innerText = '将会优先滑动面页，可能会有卡顿';
+                cardDesc.innerText = '将会优先滑动面页并关闭动画效果';
                 prevent = false;
+                addResultItemEvent = getItemEventListenerFn();
+                addResultCardEvent();
             } else {
                 cardDesc.innerText = '将会优先滑动小动物卡片';
                 prevent = true;
+                addResultItemEvent = getItemEventListenerFn();
+                addResultCardEvent();
             }
         });
     }
